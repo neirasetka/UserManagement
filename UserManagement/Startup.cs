@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UserManagement.Database;
+using UserManagement.Services.Interfaces;
+using UserManagement.Services.Services;
 
 namespace UserManagement
 {
@@ -36,6 +38,8 @@ namespace UserManagement
             });
             services.AddDbContext<UserManagementDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
