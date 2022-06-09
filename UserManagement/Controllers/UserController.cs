@@ -1,12 +1,7 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UserManagement.Core.DTOs;
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using UserManagement.Core.DTOs.User;
 
 using UserManagement.Core.Entities;
 using UserManagement.Services.Interfaces;
@@ -31,6 +26,7 @@ namespace UserManagement.API.Controllers
         public async Task<ActionResult<ServiceResponse<GetUserDto>>> AddPermissionToUser(AddPermissionToUserDto newPermission)
         {
             return Ok(await _userService.AddPersmissionToUser(newPermission));
+        }
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> DeleteUser(int id)
         {
@@ -47,7 +43,6 @@ namespace UserManagement.API.Controllers
 
         public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> Get()
         {
-            // int id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
             return Ok(await _userService.GetAllUsers());
         }
 

@@ -12,7 +12,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using UserManagement.Core.DTOs.User;
 using UserManagement.Core.Entities;
 using UserManagement.Database;
 using UserManagement.Services.Interfaces;
@@ -98,7 +97,7 @@ namespace UserManagement.Services.Services
         public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers()
         {
             var serviceResponse = new ServiceResponse<List<GetUserDto>>();
-            var dbUsers = await _context.Users.Where(c => c.isDeleted == false).ToListAsync();
+            var dbUsers = await _context.Users.Where(c => c.IsDeleted == false).ToListAsync();
             serviceResponse.Data = dbUsers.Select(c => _mapper.Map<GetUserDto>(c)).ToList();
             return serviceResponse;
         }
@@ -121,7 +120,7 @@ namespace UserManagement.Services.Services
                     user.Username = updatedUser.Username;
                     user.Email = updatedUser.Email;
                     user.UserStatus = updatedUser.UserStatus;
-                    user.isDeleted = updatedUser.isDeleted;
+                    user.IsDeleted = updatedUser.isDeleted;
                     await _context.SaveChangesAsync();
                     serviceResponse.Data = _mapper.Map<GetUserDto>(user);
                 }

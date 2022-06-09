@@ -17,11 +17,10 @@ namespace UserManagement.Core.Entities
         public string Password { get; set; }
 
         public string Email { get; set; }
-        public bool IsDeleted { get; set; }
 
         public Status UserStatus { get; set; } = Status.Active;
 
         public List<Permission> Permissions { get; set; } = new List<Permission>();
-        public Boolean isDeleted { get; set; } = false;
+        public Boolean IsDeleted { get; set; } = false;
     }
 }

@@ -1,4 +1,10 @@
-﻿using UserManagement.Common.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UserManagement.Common.Enums;
+using UserManagement.Core.Entities;
 
 namespace UserManagement.Core.DTOs
 {
@@ -15,5 +21,8 @@ namespace UserManagement.Core.DTOs
         public string Email { get; set; }
 
         public Status UserStatus { get; set; } = Status.Active;
+
+        public bool isDeleted { get; set; }
+
     }
 }
