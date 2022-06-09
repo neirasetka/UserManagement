@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using UserManagement.Core.DTOs;
 using UserManagement.Core.Entities;
 

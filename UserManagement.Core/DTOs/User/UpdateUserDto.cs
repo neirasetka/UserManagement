@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using UserManagement.Common.Enums;
 
-namespace UserManagement.Core.Entities
+namespace UserManagement.Core.DTOs.User
 {
-    public class User
+    public  class UpdateUserDto
     {
         public int Id { get; set; }
 
@@ -14,14 +17,11 @@ namespace UserManagement.Core.Entities
 
         public string Username { get; set; }
 
-        public string Password { get; set; }
+
 
         public string Email { get; set; }
-        public bool IsDeleted { get; set; }
 
         public Status UserStatus { get; set; } = Status.Active;
-
-        public List<Permission> Permissions { get; set; } = new List<Permission>();
-        public Boolean isDeleted { get; set; } = false;
+        public Boolean isDeleted { get; set; }
     }
 }

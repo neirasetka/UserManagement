@@ -8,7 +8,8 @@
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
   </ItemGroup>
-
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UserManagement.Core\UserManagement.Core.csproj" />
     <ProjectReference Include="..\UserManagement.Database\UserManagement.Database.csproj" />

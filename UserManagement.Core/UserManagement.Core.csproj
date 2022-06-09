@@ -23,4 +23,8 @@
     <ProjectReference Include="..\UserManagement.Common\UserManagement.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\Permission\" />
+  </ItemGroup>
+
 </Project>
