@@ -40,8 +40,15 @@ namespace UserManagement.Services.Services
 
                 serviceResponse.Data = _context.Users
                                    .Select(u => _mapper.Map<GetUserDto>(u)).ToList();
-           
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
+  
 
 
         public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers()

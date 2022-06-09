@@ -7,7 +7,7 @@ using AutoMapper;
 using UserManagement.Core.DTOs.User;
 using UserManagement.Core.Entities;
 
-namespace UserManagement.Common
+namespace UserManagement
 {
     public class AutoMapperProfile:Profile
     {

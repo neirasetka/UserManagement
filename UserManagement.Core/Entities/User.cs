@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UserManagement.Common.Enums;
 
 namespace UserManagement.Core.Entities
