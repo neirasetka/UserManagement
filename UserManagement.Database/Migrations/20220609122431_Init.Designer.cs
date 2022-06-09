@@ -10,7 +10,7 @@ using UserManagement.Database;
 namespace UserManagement.Database.Migrations
 {
     [DbContext(typeof(UserManagementDbContext))]
-    [Migration("20220608145159_Init")]
+    [Migration("20220609122431_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,6 +81,9 @@ namespace UserManagement.Database.Migrations
 
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
