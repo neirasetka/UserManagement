@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\UserManagement.Common\UserManagement.Common.csproj" />
     <ProjectReference Include="..\UserManagement.Core\UserManagement.Core.csproj" />
     <ProjectReference Include="..\UserManagement.Database\UserManagement.Database.csproj" />

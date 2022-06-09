@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UserManagement.Services.Services
 {
-    internal class UserService
+    public class UserService
     {
     }
 }
