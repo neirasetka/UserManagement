@@ -9,15 +9,11 @@ using UserManagement.Core.Entities;
 
 namespace UserManagement.Common
 {
-    
-    
-        public class AutoMapperProfile : Profile
+    public class AutoMapperProfile:Profile
+    {
+        public AutoMapperProfile()
         {
-            public AutoMapperProfile()
-            {
-                CreateMap<User, GetUserDto>();
-             
-            }
+            CreateMap<User, GetUserDto>().ReverseMap();
         }
-    
+    }
 }

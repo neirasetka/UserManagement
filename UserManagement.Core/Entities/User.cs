@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UserManagement.Common.Enums;
 
 namespace UserManagement.Core.Entities
@@ -22,6 +18,7 @@ namespace UserManagement.Core.Entities
         public byte[] PasswordSalt { get; set; }
 
         public string Email { get; set; }
+        public bool IsDeleted { get; set; }
 
         public Status UserStatus { get; set; } = Status.Active;
 

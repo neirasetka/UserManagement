@@ -1,3 +1,6 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +16,13 @@ namespace UserManagement.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> DeleteUser(int id)
+        {
+            var response = await _userService.DeleteUser(id);
+            if(response.Data==null)
+            
 
         public UserController (IUserService userService)
         {
@@ -39,7 +49,3 @@ namespace UserManagement.API.Controllers
             return Ok(response);
         }
     }
-
-
-   
-}

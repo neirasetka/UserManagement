@@ -18,8 +18,6 @@ namespace UserManagement.Core.DTOs.User
 
         public string Username { get; set; }
 
-       
-
         public string Email { get; set; }
 
         public Status UserStatus { get; set; } = Status.Active;
