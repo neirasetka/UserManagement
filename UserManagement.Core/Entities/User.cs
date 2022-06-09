@@ -23,5 +23,6 @@ namespace UserManagement.Core.Entities
         public Status UserStatus { get; set; } = Status.Active;
 
         public List<Permission> Permissions { get; set; } = new List<Permission>();
+        public Boolean isDeleted { get; set; } = false;
     }
 }

@@ -8,5 +8,7 @@ namespace UserManagement.Services.Interfaces
     public interface IUserService
     {
         Task<ServiceResponse<List<GetUserDto>>> DeleteUser(int id);
+        Task<ServiceResponse<List<GetUserDto>>> GetAllUsers();
+        Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updatedUser);
     }
 }
