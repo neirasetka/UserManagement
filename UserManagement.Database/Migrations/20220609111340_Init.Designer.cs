@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserManagement.Database;
 
 namespace UserManagement.Database.Migrations
 {
     [DbContext(typeof(UserManagementDbContext))]
-    partial class UserManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220609111340_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,9 +66,6 @@ namespace UserManagement.Database.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -78,9 +77,6 @@ namespace UserManagement.Database.Migrations
 
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("isDeleted")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

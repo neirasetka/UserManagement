@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
-using UserManagement.Core.DTOs.User;
+using UserManagement.Core.DTOs;
 using UserManagement.Core.Entities;
 
-namespace UserManagement
+namespace UserManagement.API
 {
-    public class AutoMapperProfile:Profile
+    public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
         {
+
             CreateMap<User, GetUserDto>().ReverseMap();
+            CreateMap<AddUserDto, User>().ReverseMap();
         }
     }
 }

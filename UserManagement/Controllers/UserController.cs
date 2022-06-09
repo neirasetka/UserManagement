@@ -1,7 +1,13 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UserManagement.Core.DTOs;
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UserManagement.Core.DTOs.User;
+
 using UserManagement.Core.Entities;
 using UserManagement.Services.Interfaces;
 
@@ -16,6 +22,15 @@ namespace UserManagement.API.Controllers
         {
             _userService = userService;
         }
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> AddUser(AddUserDto newUser)
+        {
+            return Ok(await _userService.AddUser(newUser));
+        }
+        [HttpPost("Permission")]
+        public async Task<ActionResult<ServiceResponse<GetUserDto>>> AddPermissionToUser(AddPermissionToUserDto newPermission)
+        {
+            return Ok(await _userService.AddPersmissionToUser(newPermission));
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> DeleteUser(int id)
         {
