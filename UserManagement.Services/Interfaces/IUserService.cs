@@ -11,5 +11,7 @@ namespace UserManagement.Services.Interfaces
     public interface IUserService
     {
         Task<ServiceResponse<List<GetUserDto>>> AddUser(AddUserDto newUser);
+        Task<ServiceResponse<GetUserDto>> AddPersmissionToUser(AddPermissionToUserDto permission);
+        
     }
 }

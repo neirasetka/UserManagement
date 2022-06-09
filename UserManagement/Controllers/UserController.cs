@@ -23,5 +23,10 @@ namespace UserManagement.API.Controllers
         {
             return Ok(await _userService.AddUser(newUser));
         }
+        [HttpPost("Permission")]
+        public async Task<ActionResult<ServiceResponse<GetUserDto>>> AddPermissionToUser(AddPermissionToUserDto newPermission)
+        {
+            return Ok(await _userService.AddPersmissionToUser(newPermission));
+        }
     }
 }

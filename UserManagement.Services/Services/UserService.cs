@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Core.DTOs;
 using UserManagement.Core.Entities;
@@ -22,6 +21,39 @@ namespace UserManagement.Services.Services
             _context = context;
             _mapper = mapper;
         }
+
+        public async Task<ServiceResponse<GetUserDto>> AddPersmissionToUser(AddPermissionToUserDto permission)
+        {
+            var response = new ServiceResponse<GetUserDto>();
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == permission.UserId);
+                if(user == null)
+                {
+                    response.Success = false;
+                    response.Message = "User not found!";
+                    return response;
+                }
+                var perm = await _context.Permissions.FirstOrDefaultAsync(p => p.Id == permission.PermissionId);
+                if(perm == null)
+                {
+                    response.Success = false;
+                    response.Message = "Permission not found!";
+                    return response;
+                }
+                user.Permissions.Add(perm);
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetUserDto>(user);
+            }
+            catch(Exception ex)
+            {
+                response.Success=false;
+                response.Message = ex.Message;
+            }
+            return response;
+
+        }
+
         public async Task<ServiceResponse<List<GetUserDto>>> AddUser(AddUserDto newUser)
         {
             var response = new ServiceResponse<List<GetUserDto>>();
