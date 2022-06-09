@@ -32,7 +32,7 @@ namespace UserManagement.Services.Services
         public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers()
         {
             var serviceResponse = new ServiceResponse<List<GetUserDto>>();
-            var dbUsers = await _context.Users.ToListAsync();
+            var dbUsers = await _context.Users.Where(c => c.isDeleted == false).ToListAsync();
             serviceResponse.Data = dbUsers.Select(c => _mapper.Map<GetUserDto>(c)).ToList();
             return serviceResponse;
         }
@@ -55,6 +55,7 @@ namespace UserManagement.Services.Services
                     user.Username = updatedUser.Username;
                     user.Email = updatedUser.Email;
                     user.UserStatus = updatedUser.UserStatus;
+                    user.isDeleted = updatedUser.isDeleted;
                     await _context.SaveChangesAsync();
                     serviceResponse.Data = _mapper.Map<GetUserDto>(user);
                 }

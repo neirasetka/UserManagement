@@ -24,5 +24,7 @@ namespace UserManagement.Core.DTOs.User
 
         public Status UserStatus { get; set; } = Status.Active;
 
+        public Boolean isDeleted { get; set; }
+
     }
 }

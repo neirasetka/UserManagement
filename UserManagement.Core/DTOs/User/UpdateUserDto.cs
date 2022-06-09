@@ -22,5 +22,6 @@ namespace UserManagement.Core.DTOs.User
         public string Email { get; set; }
 
         public Status UserStatus { get; set; } = Status.Active;
+        public Boolean isDeleted { get; set; }
     }
 }
