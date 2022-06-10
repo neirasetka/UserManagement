@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using UserManagement.Core.Entities;
 using UserManagement.Database;
 using UserManagement.Services.Interfaces;
+using UserManagement.Common.Enums;
 
 namespace UserManagement.Services.Services
 {
@@ -91,8 +92,18 @@ namespace UserManagement.Services.Services
             }
             return serviceResponse;
         }
-  
 
+        public async Task<ServiceResponse<List<GetUserDto>>> FilterUsers(string filter)
+        {
+            var serviceResponse = new ServiceResponse<List<GetUserDto>>();
+            var dbUsers = new List<User>(); 
+            if(filter == "Active")
+                dbUsers = await _context.Users.Where(c => c.IsDeleted == false && c.UserStatus == Status.Active).ToListAsync();
+            else if(filter == "Inactive")
+                dbUsers = await _context.Users.Where(c => c.IsDeleted == false && c.UserStatus == Status.Inactive).ToListAsync();
+            serviceResponse.Data = dbUsers.Select(c => _mapper.Map<GetUserDto>(c)).ToList();
+            return serviceResponse;
+        }
 
         public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers()
         {
@@ -101,6 +112,7 @@ namespace UserManagement.Services.Services
             serviceResponse.Data = dbUsers.Select(c => _mapper.Map<GetUserDto>(c)).ToList();
             return serviceResponse;
         }
+
        
 
         public async Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updatedUser)
