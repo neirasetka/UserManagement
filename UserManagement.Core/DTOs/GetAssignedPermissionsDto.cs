@@ -19,9 +19,8 @@ namespace UserManagement.Core.DTOs
 
         public string Email { get; set; }
 
-        public Status UserStatus { get; set; } = Status.Active;
+        public Status UserStatus { get; set; }
         public List<GetPermissionDto> Permissions{ get; set; }
 
-        public bool isDeleted { get; set; }
     }
 }

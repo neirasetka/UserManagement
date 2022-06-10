@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using UserManagement.Core.DTOs;
-using UserManagement.Core.Entities;
-using UserManagement.Database;
-using System.Threading.Tasks;
-﻿using System.Collections.Generic;
 using UserManagement.Core.DTOs;
 using UserManagement.Core.Entities;
 using UserManagement.Services.Interfaces;
@@ -31,12 +26,17 @@ namespace UserManagement.API.Controllers
         public async Task<ActionResult<ServiceResponse<GetPermissionDto>>> UpdatePermission(UpdatePermissionDto updatedPermission)
         {
             var response = await _permissionService.UpdatePermission(updatedPermission);
-            if(response.Data==null)
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
 
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetPermissionDto>>>> AddPermission(AddPermissionDto newPermision)
         {
-        
+
             return Ok(await _permissionService.AddPermission(newPermision));
         }
 

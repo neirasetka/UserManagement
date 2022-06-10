@@ -9,7 +9,6 @@ namespace UserManagement.Core.DTOs
         public string LastName { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
-        public Status UserStatus { get; set; } = Status.Active;
-        public bool isDeleted { get; set; }
+        public Status UserStatus { get; set; }
     }
 }

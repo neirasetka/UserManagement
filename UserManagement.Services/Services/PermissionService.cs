@@ -9,6 +9,7 @@ using UserManagement.Core.DTOs;
 using UserManagement.Core.Entities;
 using UserManagement.Database;
 using UserManagement.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace UserManagement.Services.Services
 { 
@@ -41,6 +42,7 @@ namespace UserManagement.Services.Services
                 response.Message = ex.Message;
             }
             return response;
+        }
 
         public async Task<ServiceResponse<GetPermissionDto>> UpdatePermission(UpdatePermissionDto updatedPermission)
         {
@@ -60,6 +62,15 @@ namespace UserManagement.Services.Services
                     await _context.SaveChangesAsync();
                     serviceResponse.Data = _mapper.Map<GetPermissionDto>(permission);
                 }
+                }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
+        }
+    
 
         public async Task<ServiceResponse<List<GetPermissionDto>>> AddPermission(AddPermissionDto newPermission)
         {
