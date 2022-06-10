@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UserManagement.Core.DTOs;
-
 using UserManagement.Core.Entities;
 using UserManagement.Services.Interfaces;
 
@@ -17,16 +16,19 @@ namespace UserManagement.API.Controllers
         {
             _userService = userService;
         }
+
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> AddUser(AddUserDto newUser)
         {
             return Ok(await _userService.AddUser(newUser));
         }
+
         [HttpPost("Permission")]
         public async Task<ActionResult<ServiceResponse<GetUserDto>>> AddPermissionToUser(AddPermissionToUserDto newPermission)
         {
             return Ok(await _userService.AddPersmissionToUser(newPermission));
         }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> DeleteUser(int id)
         {
@@ -40,10 +42,9 @@ namespace UserManagement.API.Controllers
         }
 
         [HttpGet("GetAll")]
-
-        public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> Get(int? pageNumber, int? pageSize)
         {
-            return Ok(await _userService.GetAllUsers());
+            return Ok(await _userService.GetAllUsers(pageNumber,pageSize));
         }
 
         [HttpGet("FilterByStatus")]
@@ -64,5 +65,28 @@ namespace UserManagement.API.Controllers
             }
             return Ok(response);
         }
+        [HttpGet("GetSort")]
+        public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> SortUsers(string parameter)
+        {
+
+            var response = await _userService.sortUsers(parameter);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

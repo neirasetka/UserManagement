@@ -2,7 +2,7 @@ using AutoMapper;
 using UserManagement.Core.DTOs;
 using UserManagement.Core.Entities;
 
-namespace UserManagement.API
+namespace UserManagement
 {
     public class AutoMapperProfile : Profile
     {
@@ -17,7 +17,7 @@ namespace UserManagement.API
             CreateMap<GetAssignedPermissionsDto, User>().ReverseMap();
             CreateMap<GetAssignedPermissionsDto, Permission>().ReverseMap();
             CreateMap<GetAssignedPermissionsDto, GetPermissionDto>().ReverseMap();
-
+            CreateMap<Permission, GetPermissionDto>().ReverseMap();
         }
     }
 }

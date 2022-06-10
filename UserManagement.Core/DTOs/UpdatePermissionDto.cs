@@ -1,6 +1,6 @@
 ﻿namespace UserManagement.Core.DTOs
 {
-    public class GetPermissionDto
+    public class UpdatePermissionDto
     {
         public int Id { get; set; }
         public string Code { get; set; }
