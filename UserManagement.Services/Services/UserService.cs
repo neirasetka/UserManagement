@@ -70,6 +70,12 @@ namespace UserManagement.Services.Services
             try
             {
                 User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id&&!u.IsDeleted);
+                if(user == null)
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "User not found!";
+                    return serviceResponse;
+                }
                 user.IsDeleted = true;
 
                 await _context.SaveChangesAsync();
@@ -140,7 +146,7 @@ namespace UserManagement.Services.Services
             try
             {
                 User user = await _context.Users
-                    .FirstOrDefaultAsync(c => c.Id == updatedUser.Id);
+                    .FirstOrDefaultAsync(c => c.Id == updatedUser.Id && !c.IsDeleted);
                 if (user == null)
                 {
                     throw new Exception("User not found");

@@ -50,7 +50,7 @@ namespace UserManagement.Services.Services
             try
             {
                 Permission permission = await _context.Permissions
-                    .FirstOrDefaultAsync(c => c.Id == updatedPermission.Id);
+                    .FirstOrDefaultAsync(c => c.Id == updatedPermission.Id && !c.IsDeleted);
                 if (permission == null)
                 {
                     throw new Exception("Permission not found");
@@ -88,6 +88,12 @@ namespace UserManagement.Services.Services
             try
             {
                 Permission permission = await _context.Permissions.FirstOrDefaultAsync(u => u.Id == id&& !u.IsDeleted);
+                if(permission == null)
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Permission not found!";
+                    return serviceResponse;
+                }
                 permission.IsDeleted = true;
 
                 await _context.SaveChangesAsync();
