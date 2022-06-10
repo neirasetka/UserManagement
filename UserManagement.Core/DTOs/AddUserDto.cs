@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace UserManagement.Core.DTOs
+﻿namespace UserManagement.Core.DTOs
 {
     public class AddUserDto
     {

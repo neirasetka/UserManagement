@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
 using UserManagement.Core.DTOs;
 using UserManagement.Core.Entities;
 using UserManagement.Services.Interfaces;
@@ -11,11 +11,18 @@ namespace UserManagement.API.Controllers
     [ApiController]
     public class PermissionController : ControllerBase
     {
-        private readonly IPermissionService  _permissionService;
+        private readonly IPermissionService _permissionService;
         public PermissionController(IPermissionService permissionService)
         {
             _permissionService = permissionService;
         }
+
+        [HttpPut]
+        public async Task<ActionResult<ServiceResponse<GetPermissionDto>>> UpdatePermission(UpdatePermissionDto updatedPermission)
+        {
+            var response = await _permissionService.UpdatePermission(updatedPermission);
+            if(response.Data==null)
+
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetPermissionDto>>>> AddPermission(AddPermissionDto newPermision)
         {
@@ -28,6 +35,7 @@ namespace UserManagement.API.Controllers
         {
             var response = await _permissionService.DeletePermission(id);
             if (response.Data == null)
+
             {
                 return NotFound(response);
             }

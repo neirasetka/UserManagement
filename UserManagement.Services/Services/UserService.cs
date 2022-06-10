@@ -1,17 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UserManagement.Core.DTOs;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using UserManagement.Core.Entities;
 using UserManagement.Database;
 using UserManagement.Services.Interfaces;
@@ -58,7 +51,6 @@ namespace UserManagement.Services.Services
                 response.Message = ex.Message;
             }
             return response;
-
         }
 
         public async Task<ServiceResponse<List<GetUserDto>>> AddUser(AddUserDto newUser)
@@ -91,16 +83,17 @@ namespace UserManagement.Services.Services
             }
             return serviceResponse;
         }
-  
 
-
-        public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers()
+        public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers(int? pageNumber, int? pageSize)
         {
             var serviceResponse = new ServiceResponse<List<GetUserDto>>();
             var dbUsers = await _context.Users.Where(c => c.IsDeleted == false).ToListAsync();
-            serviceResponse.Data = dbUsers.Select(c => _mapper.Map<GetUserDto>(c)).ToList();
+            var currentPageNumber = pageNumber ?? 1;
+            var currentPageSize = pageSize ?? 10;
+            serviceResponse.Data = dbUsers.Skip((currentPageNumber-1)*currentPageSize).Take(currentPageSize).Select(c => _mapper.Map<GetUserDto>(c)).ToList();
             return serviceResponse;
-        }
+
+        }      
 
         public async  Task<ServiceResponse<List<GetUserDto>>> sortUsers(string parameter)
         {
