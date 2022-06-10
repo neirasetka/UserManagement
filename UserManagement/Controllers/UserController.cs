@@ -47,6 +47,13 @@ namespace UserManagement.API.Controllers
             return Ok(await _userService.GetAllUsers(pageNumber,pageSize));
         }
 
+        [HttpGet("FilterByStatus")]
+
+        public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> FilterByStatus(string filter)
+        {
+            return Ok(await _userService.FilterUsers(filter));
+        }
+
         [HttpPut]
         public async Task<ActionResult<ServiceResponse<GetUserDto>>> UpdateCharacter(UpdateUserDto updatedUser)
         {

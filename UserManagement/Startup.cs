@@ -41,7 +41,7 @@ namespace UserManagement
             services.AddAutoMapper(typeof(Startup));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IPermissionService, PermissionService>();
+            services.AddScoped<IPermissionService, PermissionService>();  
         }
       
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

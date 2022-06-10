@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using UserManagement.Core.DTOs;
+using UserManagement.Core.Entities;
+using UserManagement.Database;
 using System.Threading.Tasks;
 ﻿using System.Collections.Generic;
 using UserManagement.Core.DTOs;
@@ -15,6 +20,11 @@ namespace UserManagement.API.Controllers
         public PermissionController(IPermissionService permissionService)
         {
             _permissionService = permissionService;
+        }
+        [HttpGet("Assigned")]
+        public async Task<ActionResult<ServiceResponse<GetAssignedPermissionsDto>>> ViewAssignedPermissions(int id)
+        {
+            return Ok(await _permissionService.ViewAssignedPermissions(id));
         }
 
         [HttpPut]
