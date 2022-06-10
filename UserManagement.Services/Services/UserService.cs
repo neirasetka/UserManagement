@@ -92,7 +92,35 @@ namespace UserManagement.Services.Services
             var currentPageSize = pageSize ?? 10;
             serviceResponse.Data = dbUsers.Skip((currentPageNumber-1)*currentPageSize).Take(currentPageSize).Select(c => _mapper.Map<GetUserDto>(c)).ToList();
             return serviceResponse;
+
         }      
+
+        public async  Task<ServiceResponse<List<GetUserDto>>> sortUsers(string parameter)
+        {
+            var serviceResponse = new ServiceResponse<List<GetUserDto>>();
+            var dbUsers = await _context.Users.Where(c => c.IsDeleted == false).ToListAsync();
+            List<User> users = new List<User>();
+            switch (parameter)
+            {
+                case "first_name":
+                     users = await _context.Users.Where(c => c.IsDeleted == false).OrderBy(q => q.FirstName).ToListAsync();
+                    break;
+                case "last_name":
+                     users = await _context.Users.Where(c => c.IsDeleted == false).OrderBy(q => q.LastName).ToListAsync();
+                    break;
+                case "username":
+                    users = await _context.Users.Where(c => c.IsDeleted == false).OrderBy(q => q.Username).ToListAsync();
+                    break;
+                default:
+                    users = await _context.Users.Where(c => c.IsDeleted == false).ToListAsync();
+                    break;
+
+            }
+            serviceResponse.Data = users.Select(c => _mapper.Map<GetUserDto>(c)).ToList();
+
+
+            return serviceResponse;
+        }
 
         public async Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updatedUser)
         {
