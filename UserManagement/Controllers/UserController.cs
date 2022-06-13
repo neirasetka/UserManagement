@@ -18,19 +18,19 @@ namespace UserManagement.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> AddUser(AddUserDto newUser)
+        public async Task<IActionResult> AddUser(AddUserDto newUser)
         {
             return Ok(await _userService.AddUser(newUser));
         }
 
         [HttpPost("Permission")]
-        public async Task<ActionResult<ServiceResponse<GetUserDto>>> AddPermissionToUser(AddPermissionToUserDto newPermission)
+        public async Task<IActionResult> AddPermissionToUser(AddPermissionToUserDto newPermission)
         {
             return Ok(await _userService.AddPersmissionToUser(newPermission));
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
             var response = await _userService.DeleteUser(id);
             if (response.Data == null)
@@ -42,20 +42,20 @@ namespace UserManagement.API.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> Get(int? pageNumber, int? pageSize)
+        public async Task<IActionResult> Get(int? pageNumber, int? pageSize)
         {
             return Ok(await _userService.GetAllUsers(pageNumber,pageSize));
         }
 
         [HttpGet("FilterByStatus")]
 
-        public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> FilterByStatus(string filter)
+        public async Task<IActionResult> FilterByStatus(string filter)
         {
             return Ok(await _userService.FilterUsers(filter));
         }
 
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<GetUserDto>>> UpdateCharacter(UpdateUserDto updatedUser)
+        public async Task<IActionResult> UpdateCharacter(UpdateUserDto updatedUser)
         {
 
             var response = await _userService.UpdateUser(updatedUser);
@@ -66,7 +66,7 @@ namespace UserManagement.API.Controllers
             return Ok(response);
         }
         [HttpGet("GetSort")]
-        public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> SortUsers(string parameter)
+        public async Task<IActionResult> SortUsers(string parameter)
         {
 
             var response = await _userService.sortUsers(parameter);

@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using UserManagement.Core.DTOs;
 using UserManagement.Core.Entities;
 using UserManagement.Database;

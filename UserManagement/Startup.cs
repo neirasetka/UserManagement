@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UserManagement.API.Extensions;
 using UserManagement.Database;
 using UserManagement.Services.Interfaces;
 using UserManagement.Services.Services;
@@ -40,8 +41,7 @@ namespace UserManagement
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(typeof(Startup));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IPermissionService, PermissionService>();  
+            services.AddApplicationServices(Configuration);
         }
       
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

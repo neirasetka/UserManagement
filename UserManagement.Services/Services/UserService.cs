@@ -36,6 +36,7 @@ namespace UserManagement.Services.Services
                     return response;
                 }
                 var perm = await _context.Permissions.FirstOrDefaultAsync(p => p.Id == permission.PermissionId);
+
                 if(perm == null)
                 {
                     response.Success = false;
@@ -110,7 +111,6 @@ namespace UserManagement.Services.Services
             var currentPageSize = pageSize ?? 10;
             serviceResponse.Data = dbUsers.Skip((currentPageNumber-1)*currentPageSize).Take(currentPageSize).Select(c => _mapper.Map<GetUserDto>(c)).ToList();
             return serviceResponse;
-
         }      
 
         public async  Task<ServiceResponse<List<GetUserDto>>> sortUsers(string parameter)
@@ -135,8 +135,6 @@ namespace UserManagement.Services.Services
 
             }
             serviceResponse.Data = users.Select(c => _mapper.Map<GetUserDto>(c)).ToList();
-
-
             return serviceResponse;
         }
 
