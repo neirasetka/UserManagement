@@ -103,10 +103,35 @@ namespace UserManagement.Services.Services
             serviceResponse.Data = dbUsers.Select(c => _mapper.Map<GetUserDto>(c)).ToList();
             return serviceResponse;
         }
-        public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers(int? pageNumber, int? pageSize)
+        public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers(int? pageNumber, int? pageSize,string? sortParametar)
         {
             var serviceResponse = new ServiceResponse<List<GetUserDto>>();
             var dbUsers = await _context.Users.Where(c => c.IsDeleted == false).ToListAsync();
+            if (sortParametar == null)
+            {
+                dbUsers = dbUsers.Where(q => q.IsDeleted == false).ToList();
+            }
+            else if (sortParametar.Length != 0 &&  sortParametar != null)
+            {
+                switch (sortParametar)
+                {
+                    case "first_name":
+                        dbUsers = dbUsers.OrderBy(q => q.FirstName).ToList();
+                        break;
+                    case "last_name":
+                        dbUsers = dbUsers.OrderBy(q => q.LastName).ToList();
+                        break;
+                    case "username":
+                        dbUsers = dbUsers.OrderBy(q => q.Username).ToList();
+                        break;
+                    default:
+                        dbUsers = dbUsers.Where(q => q.IsDeleted == false).ToList();
+                    
+                        break;
+
+                }
+            }
+            
             var currentPageNumber = pageNumber ?? 1;
             var currentPageSize = pageSize ?? 10;
             serviceResponse.Data = dbUsers.Skip((currentPageNumber-1)*currentPageSize).Take(currentPageSize).Select(c => _mapper.Map<GetUserDto>(c)).ToList();

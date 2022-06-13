@@ -9,7 +9,7 @@ namespace UserManagement.Services.Interfaces
         Task<ServiceResponse<List<GetUserDto>>> AddUser(AddUserDto newUser);
         Task<ServiceResponse<GetUserDto>> AddPersmissionToUser(AddPermissionToUserDto permission);
         Task<ServiceResponse<List<GetUserDto>>> DeleteUser(int id);
-        Task<ServiceResponse<List<GetUserDto>>> GetAllUsers(int? pageNumber,int? pageSize);
+        Task<ServiceResponse<List<GetUserDto>>> GetAllUsers(int? pageNumber,int? pageSize,string? sortParametar);
         Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updatedUser);
         Task<ServiceResponse<List<GetUserDto>>> FilterUsers(string filter);
         Task<ServiceResponse<List<GetUserDto>>> sortUsers(string parameter);
