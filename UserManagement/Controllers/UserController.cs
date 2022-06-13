@@ -42,9 +42,9 @@ namespace UserManagement.API.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> Get(int? pageNumber, int? pageSize, string? sortParametar)
+        public async Task<IActionResult> Get(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery, string? filterParameter)
         {
-            return Ok(await _userService.GetAllUsers(pageNumber,pageSize, sortParametar));
+            return Ok(await _userService.GetAllUsers(pageNumber,pageSize, sortParametar, searchQuery, filterParameter));
         }
 
         [HttpGet("FilterByStatus")]

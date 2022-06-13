@@ -103,12 +103,23 @@ namespace UserManagement.Services.Services
             serviceResponse.Data = dbUsers.Select(c => _mapper.Map<GetUserDto>(c)).ToList();
             return serviceResponse;
         }
-        public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers(int? pageNumber, int? pageSize,string? sortParametar)
+        public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers(int? pageNumber, int? pageSize,string? sortParametar, string? searchQuery, string filterParameter)
         {
             var serviceResponse = new ServiceResponse<List<GetUserDto>>();
             var dbUsers = await _context.Users.Where(c => c.IsDeleted == false).ToListAsync();
+            if(searchQuery != null)
+                dbUsers = dbUsers.Where((u=> u.FirstName.ToLower().Contains(searchQuery.ToLower()) 
+                                          || u.LastName.ToLower().Contains(searchQuery.ToLower()) 
+                                          || u.Username.ToLower().Contains(searchQuery.ToLower()))).ToList();
+            if (filterParameter == "Active")
+                dbUsers = dbUsers.Where(u => u.UserStatus == Status.Active).ToList();
+            else if (filterParameter == "Inactive")
+                dbUsers = dbUsers.Where(u => u.UserStatus == Status.Inactive).ToList();
+                
+
             if (sortParametar == null)
             {
+                //mislim da ne treba ovo upoce jer je vec gore uzeta lista usera
                 dbUsers = dbUsers.Where(q => q.IsDeleted == false).ToList();
             }
             else if (sortParametar.Length != 0 &&  sortParametar != null)
