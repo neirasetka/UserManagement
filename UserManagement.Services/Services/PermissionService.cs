@@ -1,21 +1,21 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UserManagement.Core.DTOs;
 using UserManagement.Core.Entities;
 using UserManagement.Database;
 using UserManagement.Services.Interfaces;
-using System.Collections.Generic;
 
 namespace UserManagement.Services.Services
-{ 
+{
     public class PermissionService : IPermissionService
     {
         private readonly UserManagementDbContext _context;
         private readonly IMapper _mapper;
-        public PermissionService (UserManagementDbContext context, IMapper mapper)
+        public PermissionService(UserManagementDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -44,31 +44,33 @@ namespace UserManagement.Services.Services
 
         public async Task<ServiceResponse<GetPermissionDto>> UpdatePermission(UpdatePermissionDto updatedPermission)
         {
-            var serviceResponse = new ServiceResponse<GetPermissionDto>();
+            var response = new ServiceResponse<GetPermissionDto>();
             try
             {
                 Permission permission = await _context.Permissions
                     .FirstOrDefaultAsync(c => c.Id == updatedPermission.Id && !c.IsDeleted);
                 if (permission == null)
                 {
-                    throw new Exception("Permission not found");
+                    response.Success = false;
+                    response.Message = "Permission not found!";
+                    return response;
                 }
                 else
                 {
                     permission.Code = updatedPermission.Code;
                     permission.Description = updatedPermission.Description;
                     await _context.SaveChangesAsync();
-                    serviceResponse.Data = _mapper.Map<GetPermissionDto>(permission);
                 }
-                }
+                response.Data = _mapper.Map<GetPermissionDto>(permission);
+            }
             catch (Exception ex)
             {
-                serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                response.Success = false;
+                response.Message = ex.Message;
             }
-            return serviceResponse;
+            return response;
         }
-    
+
 
         public async Task<ServiceResponse<List<GetPermissionDto>>> AddPermission(AddPermissionDto newPermission)
         {
@@ -85,8 +87,8 @@ namespace UserManagement.Services.Services
             var serviceResponse = new ServiceResponse<List<GetPermissionDto>>();
             try
             {
-                Permission permission = await _context.Permissions.FirstOrDefaultAsync(u => u.Id == id&& !u.IsDeleted);
-                if(permission == null)
+                Permission permission = await _context.Permissions.FirstOrDefaultAsync(u => u.Id == id && !u.IsDeleted);
+                if (permission == null)
                 {
                     serviceResponse.Success = false;
                     serviceResponse.Message = "Permission not found!";

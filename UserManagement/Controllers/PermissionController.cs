@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UserManagement.Core.DTOs;
-using UserManagement.Core.Entities;
 using UserManagement.Services.Interfaces;
 
 namespace UserManagement.API.Controllers
@@ -19,7 +17,12 @@ namespace UserManagement.API.Controllers
         [HttpGet("Assigned")]
         public async Task<IActionResult> ViewAssignedPermissions(int id)
         {
-            return Ok(await _permissionService.ViewAssignedPermissions(id));
+            var response = await _permissionService.ViewAssignedPermissions(id);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
         [HttpPut]
@@ -36,8 +39,12 @@ namespace UserManagement.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPermission(AddPermissionDto newPermision)
         {
-
-            return Ok(await _permissionService.AddPermission(newPermision));
+            var response = await _permissionService.AddPermission(newPermision);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
         [HttpDelete("{id}")]
@@ -45,7 +52,6 @@ namespace UserManagement.API.Controllers
         {
             var response = await _permissionService.DeletePermission(id);
             if (response.Data == null)
-
             {
                 return NotFound(response);
             }

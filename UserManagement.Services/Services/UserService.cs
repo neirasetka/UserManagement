@@ -23,27 +23,28 @@ namespace UserManagement.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<ServiceResponse<GetUserDto>> AddPersmissionToUser(AddPermissionToUserDto permission)
+        public async Task<ServiceResponse<GetUserDto>> AddPersmissionToUser(AddPermissionToUserDto newPermission)
         {
             var response = new ServiceResponse<GetUserDto>();
             try
             {
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == permission.UserId);
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == newPermission.UserId);
                 if(user == null)
                 {
                     response.Success = false;
                     response.Message = "User not found!";
                     return response;
                 }
-                var perm = await _context.Permissions.FirstOrDefaultAsync(p => p.Id == permission.PermissionId);
 
-                if(perm == null)
+                var permission = await _context.Permissions.FirstOrDefaultAsync(p => p.Id == newPermission.PermissionId);
+
+                if(permission == null)
                 {
                     response.Success = false;
                     response.Message = "Permission not found!";
                     return response;
                 }
-                user.Permissions.Add(perm);
+                user.Permissions.Add(permission);
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetUserDto>(user);
             }
@@ -67,41 +68,45 @@ namespace UserManagement.Services.Services
 
         public async Task<ServiceResponse<List<GetUserDto>>> DeleteUser(int id)
         {
-            var serviceResponse = new ServiceResponse<List<GetUserDto>>();
+            var response = new ServiceResponse<List<GetUserDto>>();
             try
             {
                 User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id&&!u.IsDeleted);
                 if(user == null)
                 {
-                    serviceResponse.Success = false;
-                    serviceResponse.Message = "User not found!";
-                    return serviceResponse;
+                    response.Success = false;
+                    response.Message = "User not found!";
+                    return response;
                 }
                 user.IsDeleted = true;
 
                 await _context.SaveChangesAsync();
 
-                serviceResponse.Data = _context.Users
+                response.Data = _context.Users
                                    .Select(u => _mapper.Map<GetUserDto>(u)).ToList();
             }
             catch (Exception ex)
             {
-                serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                response.Success = false;
+                response.Message = ex.Message;
             }
-            return serviceResponse;
+            return response;
         }
 
         public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers(int? pageNumber, int? pageSize,string? sortParametar, string? searchQuery, string filterParameter)
         {
-            var serviceResponse = new ServiceResponse<List<GetUserDto>>();
+            var response = new ServiceResponse<List<GetUserDto>>();
+
             var dbUsers = await _context.Users.Where(c => c.IsDeleted == false).ToListAsync();
+
             if(searchQuery != null)
                 dbUsers = dbUsers.Where((u=> u.FirstName.ToLower().Contains(searchQuery.ToLower()) 
                                           || u.LastName.ToLower().Contains(searchQuery.ToLower()) 
                                           || u.Username.ToLower().Contains(searchQuery.ToLower()))).ToList();
+
             if (filterParameter == "Active")
                 dbUsers = dbUsers.Where(u => u.UserStatus == Status.Active).ToList();
+
             else if (filterParameter == "Inactive")
                 dbUsers = dbUsers.Where(u => u.UserStatus == Status.Inactive).ToList();
                 
@@ -125,23 +130,24 @@ namespace UserManagement.Services.Services
             
             var currentPageNumber = pageNumber ?? 1;
             var currentPageSize = pageSize ?? 10;
-            serviceResponse.Data = dbUsers.Skip((currentPageNumber-1)*currentPageSize).Take(currentPageSize).Select(c => _mapper.Map<GetUserDto>(c)).ToList();
-            return serviceResponse;
+            response.Data = dbUsers.Skip((currentPageNumber-1)*currentPageSize).Take(currentPageSize).Select(c => _mapper.Map<GetUserDto>(c)).ToList();
+            return response;
         }      
 
         
         public async Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updatedUser)
         {
-            var serviceResponse = new ServiceResponse<GetUserDto>();
+            var response = new ServiceResponse<GetUserDto>();
             try
             {
                 User user = await _context.Users
                     .FirstOrDefaultAsync(c => c.Id == updatedUser.Id && !c.IsDeleted);
                 if (user == null)
                 {
-                    throw new Exception("User not found");
+                    response.Success = false;
+                    response.Message = "User not found!";
+                    return response;
                 }
-                else {
                     user.FirstName = updatedUser.FirstName;
                     user.LastName = updatedUser.LastName;
                     user.Username = updatedUser.Username;
@@ -149,15 +155,14 @@ namespace UserManagement.Services.Services
                     user.UserStatus = updatedUser.UserStatus;
                     user.IsDeleted = updatedUser.isDeleted;
                     await _context.SaveChangesAsync();
-                    serviceResponse.Data = _mapper.Map<GetUserDto>(user);
-                }
+                    response.Data = _mapper.Map<GetUserDto>(user);
             }
             catch (Exception ex)
             {
-                serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                response.Success = false;
+                response.Message = ex.Message;
             }
-            return serviceResponse;
+            return response;
         }
     }
 }

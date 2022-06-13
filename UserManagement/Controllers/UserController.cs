@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UserManagement.Core.DTOs;
-using UserManagement.Core.Entities;
 using UserManagement.Services.Interfaces;
 
 namespace UserManagement.API.Controllers
@@ -20,13 +18,23 @@ namespace UserManagement.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUser(AddUserDto newUser)
         {
-            return Ok(await _userService.AddUser(newUser));
+            var response = await _userService.AddUser(newUser);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
         [HttpPost("Permission")]
         public async Task<IActionResult> AddPermissionToUser(AddPermissionToUserDto newPermission)
         {
-            return Ok(await _userService.AddPersmissionToUser(newPermission));
+            var response = await _userService.AddPersmissionToUser(newPermission);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
         [HttpDelete("{id}")]
@@ -44,13 +52,17 @@ namespace UserManagement.API.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> Get(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery, string? filterParameter)
         {
-            return Ok(await _userService.GetAllUsers(pageNumber,pageSize, sortParametar, searchQuery, filterParameter));
+            var response = await _userService.GetAllUsers(pageNumber, pageSize, sortParametar, searchQuery, filterParameter);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateCharacter(UpdateUserDto updatedUser)
         {
-
             var response = await _userService.UpdateUser(updatedUser);
             if (response.Data == null)
             {
