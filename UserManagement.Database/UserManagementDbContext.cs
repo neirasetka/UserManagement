@@ -11,5 +11,7 @@ namespace UserManagement.Database
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Permission> Permissions { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
     }
 }
