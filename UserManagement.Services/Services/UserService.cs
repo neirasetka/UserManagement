@@ -116,13 +116,7 @@ namespace UserManagement.Services.Services
             else if (filterParameter == "Inactive")
                 dbUsers = dbUsers.Where(u => u.UserStatus == Status.Inactive).ToList();
                 
-
-            if (sortParametar == null)
-            {
-                //mislim da ne treba ovo upoce jer je vec gore uzeta lista usera
-                dbUsers = dbUsers.Where(q => q.IsDeleted == false).ToList();
-            }
-            else if (sortParametar.Length != 0 &&  sortParametar != null)
+            if (sortParametar != null)
             {
                 switch (sortParametar)
                 {
@@ -135,9 +129,7 @@ namespace UserManagement.Services.Services
                     case "username":
                         dbUsers = dbUsers.OrderBy(q => q.Username).ToList();
                         break;
-                    default:
-                        dbUsers = dbUsers.Where(q => q.IsDeleted == false).ToList();
-                    
+                    default:  
                         break;
 
                 }
@@ -149,31 +141,7 @@ namespace UserManagement.Services.Services
             return serviceResponse;
         }      
 
-        public async  Task<ServiceResponse<List<GetUserDto>>> sortUsers(string parameter)
-        {
-            var serviceResponse = new ServiceResponse<List<GetUserDto>>();
-            var dbUsers = await _context.Users.Where(c => c.IsDeleted == false).ToListAsync();
-            List<User> users = new List<User>();
-            switch (parameter)
-            {
-                case "first_name":
-                     users = await _context.Users.Where(c => c.IsDeleted == false).OrderBy(q => q.FirstName).ToListAsync();
-                    break;
-                case "last_name":
-                     users = await _context.Users.Where(c => c.IsDeleted == false).OrderBy(q => q.LastName).ToListAsync();
-                    break;
-                case "username":
-                    users = await _context.Users.Where(c => c.IsDeleted == false).OrderBy(q => q.Username).ToListAsync();
-                    break;
-                default:
-                    users = await _context.Users.Where(c => c.IsDeleted == false).ToListAsync();
-                    break;
-
-            }
-            serviceResponse.Data = users.Select(c => _mapper.Map<GetUserDto>(c)).ToList();
-            return serviceResponse;
-        }
-
+        
         public async Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updatedUser)
         {
             var serviceResponse = new ServiceResponse<GetUserDto>();

@@ -65,17 +65,7 @@ namespace UserManagement.API.Controllers
             }
             return Ok(response);
         }
-        [HttpGet("GetSort")]
-        public async Task<IActionResult> SortUsers(string parameter)
-        {
-
-            var response = await _userService.sortUsers(parameter);
-            if (response.Data == null)
-            {
-                return NotFound(response);
-            }
-            return Ok(response);
-        }
+      
 
 
 

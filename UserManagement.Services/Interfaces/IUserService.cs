@@ -12,6 +12,6 @@ namespace UserManagement.Services.Interfaces
         Task<ServiceResponse<List<GetUserDto>>> GetAllUsers(int? pageNumber,int? pageSize,string? sortParametar, string? searchQuery, string? filterParameter );
         Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updatedUser);
         Task<ServiceResponse<List<GetUserDto>>> FilterUsers(string filter);
-        Task<ServiceResponse<List<GetUserDto>>> sortUsers(string parameter);
+   
     }
 }
