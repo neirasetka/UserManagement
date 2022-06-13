@@ -47,13 +47,6 @@ namespace UserManagement.API.Controllers
             return Ok(await _userService.GetAllUsers(pageNumber,pageSize, sortParametar, searchQuery, filterParameter));
         }
 
-        [HttpGet("FilterByStatus")]
-
-        public async Task<IActionResult> FilterByStatus(string filter)
-        {
-            return Ok(await _userService.FilterUsers(filter));
-        }
-
         [HttpPut]
         public async Task<IActionResult> UpdateCharacter(UpdateUserDto updatedUser)
         {
@@ -65,18 +58,5 @@ namespace UserManagement.API.Controllers
             }
             return Ok(response);
         }
-      
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
