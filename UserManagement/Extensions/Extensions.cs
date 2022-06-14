@@ -11,6 +11,8 @@ namespace UserManagement.API.Extensions
             {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPermissionService, PermissionService>();
+            services.AddScoped<IVehicleService, VehicleService>();
+            services.AddScoped<IExpenseService, ExpenseService>();
 
             return services;
             }
