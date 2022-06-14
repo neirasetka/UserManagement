@@ -21,6 +21,7 @@ namespace UserManagement
             CreateMap<Vehicle, GetVehicleDto>().ReverseMap();
             CreateMap<Expense, GetExpenseDto>().ReverseMap();
             CreateMap<GetVehicleDto, Vehicle>().ReverseMap();
+            CreateMap<GetExpenseDto, Expense>().ReverseMap();
         }
     }
 }

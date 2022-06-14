@@ -29,7 +29,7 @@ namespace UserManagement.Services.Services
             try
             {
 
-                Expense expense = await _context.Expenses.FirstOrDefaultAsync(u => u.Id == id && !u.IsDeleted);
+                Expense expense = await _context.Expenses.FirstOrDefaultAsync(c => c.Id == id && !c.IsDeleted);
                 if (expense == null)
                 {
                     response.Success = false;
@@ -42,6 +42,57 @@ namespace UserManagement.Services.Services
 
                 response.Data = _context.Expenses
                                    .Select(u => _mapper.Map<GetExpenseDto>(u)).ToList();
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<ServiceResponse<GetExpenseDto>> GetExpenseById(int id)
+        {
+            var response = new ServiceResponse<GetExpenseDto>();
+            try
+            {
+                Expense expense = await _context.Expenses
+                    .FirstOrDefaultAsync(c => c.Id ==id && !c.IsDeleted);
+                if (expense == null)
+                {
+                    response.Success = false;
+                    response.Message = "Vehcile not found!";
+                    return response;
+                }
+                response.Data = _mapper.Map<GetExpenseDto>(expense);
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<ServiceResponse<GetExpenseDto>> UpdateExpense(UpdateExpenseDto updatedExpense)
+        {
+            var response = new ServiceResponse<GetExpenseDto>();
+            try
+            {
+                Expense expense = await _context.Expenses
+                    .FirstOrDefaultAsync(c => c.Id == updatedExpense.Id && !c.IsDeleted);
+                if (expense == null)
+                {
+                    response.Success = false;
+                    response.Message = "Vehcile not found!";
+                    return response;
+                }
+                expense.Name = updatedExpense.Name;
+                expense.Price = updatedExpense.Price;
+                expense.IsDeleted = updatedExpense.IsDeleted;
+                expense.Vehicle = updatedExpense.Vehicle;
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetExpenseDto>(expense);
             }
             catch (Exception ex)
             {
