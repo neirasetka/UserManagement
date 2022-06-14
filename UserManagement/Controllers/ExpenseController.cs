@@ -26,6 +26,7 @@ namespace UserManagement.API.Controllers
             }
             return Ok(response);
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteExpense(int id)
         {
@@ -36,10 +37,7 @@ namespace UserManagement.API.Controllers
             }
             return Ok(response);
         }
-    }
-}
 
-        }
         [HttpPut]
         public async Task<IActionResult> UpdateExpense(UpdateExpenseDto updatedExpense)
         {

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using UserManagement.Core.DTOs;
 using UserManagement.Core.Entities;
 using UserManagement.Database;
 using UserManagement.Services.Interfaces;
+using System;
 
 namespace UserManagement.Services.Services
 {
@@ -29,7 +29,8 @@ namespace UserManagement.Services.Services
             _context.Vehicles.Add(vehicle);
             await _context.SaveChangesAsync();
             response.Data = await _context.Vehicles.Select(v => _mapper.Map<GetVehicleDto>(v)).ToListAsync();
- 
+            return response;
+        }
         public async Task<ServiceResponse<List<GetVehicleDto>>> DeleteVehicle(int id)
         {
             var response = new ServiceResponse<List<GetVehicleDto>>();

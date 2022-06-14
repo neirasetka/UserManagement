@@ -2,10 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using UserManagement.Core.DTOs;
 using UserManagement.Core.Entities;
 using UserManagement.Database;
@@ -31,7 +29,8 @@ namespace UserManagement.Services.Services
             _context.Expenses.Add(expense);
             await _context.SaveChangesAsync();
             response.Data = await _context.Expenses.Select(u => _mapper.Map<GetExpenseDto>(u)).ToListAsync();
-
+            return response;
+        }
         public async Task<ServiceResponse<List<GetExpenseDto>>> DeleteExpense(int id)
         {
             var response = new ServiceResponse<List<GetExpenseDto>>();
