@@ -53,5 +53,33 @@ namespace UserManagement.Services.Services
             }
             return response;
         }
+
+        public async Task<ServiceResponse<GetVehicleDto>> UpdateVehicle(UpdateVehicleDto updatedVehicle)
+        {
+            var response = new ServiceResponse<GetVehicleDto>();
+            try
+            {
+                Vehicle vehicle = await _context.Vehicles
+                    .FirstOrDefaultAsync(c => c.Id == updatedVehicle.Id && !c.IsDeleted);
+                if (vehicle == null)
+                {
+                    response.Success = false;
+                    response.Message = "Vehcile not found!";
+                    return response;
+                }
+                vehicle.Name = updatedVehicle.Name;
+                vehicle.LicensePlate = updatedVehicle.LicensePlate;
+                vehicle.Manufacturer = updatedVehicle.Manufacturer;
+                vehicle.IsDeleted = updatedVehicle.IsDeleted;
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetVehicleDto>(vehicle);
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
     }
 }

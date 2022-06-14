@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using UserManagement.Core.DTOs;
 using UserManagement.Services.Interfaces;
 
 namespace UserManagement.API.Controllers
@@ -25,5 +26,17 @@ namespace UserManagement.API.Controllers
             return Ok(response);
 
         }
+        [HttpPut]
+        public async Task<IActionResult> UpdateVehicle(UpdateVehicleDto updatedVehicle)
+        {
+            var response = await _vehicleService.UpdateVehicle(updatedVehicle);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+
     }
 }
