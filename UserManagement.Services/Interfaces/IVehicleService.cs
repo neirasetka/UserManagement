@@ -12,5 +12,6 @@ namespace UserManagement.Services.Interfaces
     {
         Task<ServiceResponse<List<GetVehicleDto>>> DeleteVehicle(int id);
         Task<ServiceResponse<GetVehicleDto>> UpdateVehicle(UpdateVehicleDto updatedVehicle);
+        Task<ServiceResponse<GetVehicleDto>> GetVehicleById(int id);
     }
 }

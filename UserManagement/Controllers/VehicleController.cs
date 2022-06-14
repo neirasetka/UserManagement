@@ -36,6 +36,17 @@ namespace UserManagement.API.Controllers
             }
             return Ok(response);
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetVehicleById(int id)
+        {
+            var response = await _vehicleService.GetVehicleById(id);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+
+        }
 
 
     }
