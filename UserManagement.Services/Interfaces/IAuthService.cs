@@ -12,3 +12,4 @@ namespace UserManagement.Services.Interfaces
         Task<ServiceResponse<string>> Register(User newUser);
     }
 }
+

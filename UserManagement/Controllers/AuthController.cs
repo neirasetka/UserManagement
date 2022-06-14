@@ -11,11 +11,11 @@ namespace UserManagement.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _service;
+        private readonly IAuthRepository _authRepo;
 
-        public AuthController(IAuthService service)
+        public AuthController(IAuthRepository authRepo)
         {
-            _service = service;
+            _authRepo = authRepo;
         }
         [HttpPost("Register")]
         public async Task<IActionResult> Register(UserRegisterDto newUser)
@@ -26,6 +26,20 @@ namespace UserManagement.API.Controllers
                 return NotFound(response);
             }
             return Ok(response);
+         }
+
+   
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(UserLoginDto request)
+        {
+            ServiceResponse<string> response = await _authRepo.Login(request.Username, request.Password);
+
+            if (!response.Success)
+            {
+                return BadRequest(response);
+
+            }
+            return Ok(response);
         }
     }
-}
+

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using UserManagement.Core.DTOs;
+
 using UserManagement.Services.Interfaces;
 
 namespace UserManagement.API.Controllers
@@ -9,11 +11,11 @@ namespace UserManagement.API.Controllers
     [ApiController]
     public class ExpenseController : ControllerBase
     {
-        private readonly IExpenseService _service;
-
-        public ExpenseController(IExpenseService service)
+        private readonly IExpenseService _expenseService;
+        
+        public ExpenseController(IExpenseService expenseService)
         {
-            _service = service;
+            _expenseService = expenseService;
         }
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllExpenses(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery)
@@ -24,6 +26,52 @@ namespace UserManagement.API.Controllers
                 return BadRequest(response);
             }
             return Ok(response);
+        }
+
+  
+        
+        [HttpPost]
+        public async Task<IActionResult> AddExpense(AddExpenseDto newExpense)
+        {
+            var response = await _expenseService.AddExpense(newExpense);
+             if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteExpense(int id)
+        {
+            var response = await _expenseService.DeleteExpense(id);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateExpense(UpdateExpenseDto updatedExpense)
+        {
+            var response = await _expenseService.UpdateExpense(updatedExpense);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetExpenseById(int id)
+        {
+            var response = await _expenseService.GetExpenseById(id);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+
         }
     }
 }

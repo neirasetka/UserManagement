@@ -8,7 +8,6 @@ namespace UserManagement
     {
         public AutoMapperProfile()
         {
-
             CreateMap<User, GetUserDto>().ReverseMap();
             CreateMap<AddUserDto, User>().ReverseMap();
             CreateMap<AddPermissionDto, Permission>().ReverseMap();
@@ -20,6 +19,10 @@ namespace UserManagement
             CreateMap<Permission, GetPermissionDto>().ReverseMap();
             CreateMap<Vehicle, GetVehicleDto>().ReverseMap();
             CreateMap<Expense, GetExpenseDto>().ReverseMap();
+            CreateMap<AddVehicleDto, Vehicle>().ReverseMap();
+            CreateMap<AddExpenseDto, Expense>().ReverseMap();
+            CreateMap<GetVehicleDto, Vehicle>().ReverseMap();
+            CreateMap<GetExpenseDto, Expense>().ReverseMap();
         }
     }
 }
