@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UserManagement.Core.DTOs;
 using UserManagement.Core.Entities;
 
 namespace UserManagement.Services.Interfaces
 {
-    public interface IVehicleService
+    public interface IAuthService
     {
-        Task<ServiceResponse<List<GetVehicleDto>>> GetAllVehicles(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery);
+        Task<ServiceResponse<string>> Register(User newUser);
     }
 }
