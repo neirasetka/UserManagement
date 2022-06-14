@@ -20,7 +20,7 @@ namespace UserManagement.API.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllExpenses(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery)
         {
-            var response = await _service.GetAllExpenses(pageNumber, pageSize, sortParametar, searchQuery);
+            var response = await _expenseService.GetAllExpenses(pageNumber, pageSize, sortParametar, searchQuery);
             if(response == null)
             {
                 return BadRequest(response);

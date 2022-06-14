@@ -23,7 +23,7 @@ namespace UserManagement.API.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllVehicles(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery)
         {
-            var response = await _service.GetAllVehicles(pageNumber, pageSize, sortParametar, searchQuery); 
+            var response = await _vehicleService.GetAllVehicles(pageNumber, pageSize, sortParametar, searchQuery); 
             if (response.Data == null)
             {
                 return NotFound(response);

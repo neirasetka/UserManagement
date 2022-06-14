@@ -130,6 +130,7 @@ namespace UserManagement.Services.Services
                 expense.Price = updatedExpense.Price;
                 expense.IsDeleted = updatedExpense.IsDeleted;
                 expense.Vehicle = updatedExpense.Vehicle;
+                expense.ExpirationDate = updatedExpense.ExpirationDate;
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetExpenseDto>(expense);
             }
