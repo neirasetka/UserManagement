@@ -1,5 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using UserManagement.Core.DTOs;
 using UserManagement.Services.Interfaces;
 
@@ -14,6 +15,17 @@ namespace UserManagement.API.Controllers
         {
             _expenseService = expenseService;
         }
+        
+        [HttpPost]
+        public async Task<IActionResult> AddExpense(AddExpenseDto newExpense)
+        {
+            var response = await _expenseService.AddExpense(newExpense);
+             if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteExpense(int id)
         {
@@ -23,6 +35,9 @@ namespace UserManagement.API.Controllers
                 return NotFound(response);
             }
             return Ok(response);
+        }
+    }
+}
 
         }
         [HttpPut]

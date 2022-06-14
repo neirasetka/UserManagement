@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UserManagement.API.Extensions;
+using UserManagement.API.Middleware;
 using UserManagement.Database;
 using UserManagement.Services.Interfaces;
 using UserManagement.Services.Services;
@@ -49,6 +50,7 @@ namespace UserManagement
         {
             if (env.IsDevelopment())
             {
+                app.UseMiddleware<ExceptionMiddleware>();
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UserManagement v1"));

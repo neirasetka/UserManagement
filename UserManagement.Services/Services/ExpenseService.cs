@@ -1,4 +1,5 @@
-﻿using System;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,6 @@ namespace UserManagement.Services.Services
 {
     public class ExpenseService : IExpenseService
     {
-
         private readonly UserManagementDbContext _context;
         private readonly IMapper _mapper;
 
@@ -23,6 +23,15 @@ namespace UserManagement.Services.Services
             _context = context;
             _mapper = mapper;
         }
+
+        public async Task<ServiceResponse<List<GetExpenseDto>>> AddExpense(AddExpenseDto newExpense)
+        {
+            var response = new ServiceResponse<List<GetExpenseDto>>();
+            var expense = _mapper.Map<Expense>(newExpense);
+            _context.Expenses.Add(expense);
+            await _context.SaveChangesAsync();
+            response.Data = await _context.Expenses.Select(u => _mapper.Map<GetExpenseDto>(u)).ToListAsync();
+
         public async Task<ServiceResponse<List<GetExpenseDto>>> DeleteExpense(int id)
         {
             var response = new ServiceResponse<List<GetExpenseDto>>();

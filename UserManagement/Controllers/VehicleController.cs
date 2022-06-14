@@ -1,3 +1,4 @@
+﻿using Microsoft.AspNetCore.Http;
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Core.DTOs;
@@ -5,7 +6,6 @@ using UserManagement.Services.Interfaces;
 
 namespace UserManagement.API.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class VehicleController : ControllerBase
@@ -15,6 +15,18 @@ namespace UserManagement.API.Controllers
         {
             _vehicleService = vehicleService;
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddVehicle(AddVehicleDto newVehicle)
+        {
+            var response = await _vehicleService.AddVehicle(newVehicle);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
@@ -36,7 +48,9 @@ namespace UserManagement.API.Controllers
             }
             return Ok(response);
         }
-        [HttpGet("{id}")]
+    
+
+[HttpGet("{id}")]
         public async Task<IActionResult> GetVehicleById(int id)
         {
             var response = await _vehicleService.GetVehicleById(id);
@@ -45,9 +59,6 @@ namespace UserManagement.API.Controllers
                 return NotFound(response);
             }
             return Ok(response);
-
         }
-
-
     }
-}
+    }
