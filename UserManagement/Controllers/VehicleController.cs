@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using UserManagement.Database;
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Core.DTOs;
@@ -10,10 +13,22 @@ namespace UserManagement.API.Controllers
     [ApiController]
     public class VehicleController : ControllerBase
     {
+
         private readonly IVehicleService _vehicleService;
+        
         public VehicleController(IVehicleService vehicleService)
         {
             _vehicleService = vehicleService;
+        }
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAllVehicles(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery)
+        {
+            var response = await _service.GetAllVehicles(pageNumber, pageSize, sortParametar, searchQuery); 
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
         [HttpPost]
@@ -50,7 +65,7 @@ namespace UserManagement.API.Controllers
         }
     
 
-[HttpGet("{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetVehicleById(int id)
         {
             var response = await _vehicleService.GetVehicleById(id);
@@ -61,4 +76,6 @@ namespace UserManagement.API.Controllers
             return Ok(response);
         }
     }
-    }
+
+}
+

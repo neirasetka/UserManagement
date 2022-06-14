@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using UserManagement.Core.DTOs;
+
 using UserManagement.Services.Interfaces;
 
 namespace UserManagement.API.Controllers
@@ -11,10 +12,23 @@ namespace UserManagement.API.Controllers
     public class ExpenseController : ControllerBase
     {
         private readonly IExpenseService _expenseService;
+        
         public ExpenseController(IExpenseService expenseService)
         {
             _expenseService = expenseService;
         }
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAllExpenses(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery)
+        {
+            var response = await _service.GetAllExpenses(pageNumber, pageSize, sortParametar, searchQuery);
+            if(response == null)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+  
         
         [HttpPost]
         public async Task<IActionResult> AddExpense(AddExpenseDto newExpense)
