@@ -21,6 +21,11 @@ namespace UserManagement.API.Controllers
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDto request)
         {
             var response = await _authRepo.Register(
+                 new User { Username = request.Username }, request.Password
+                 );
+            if (!response.Success)
+            {
+                return BadRequest(response);
                 new User { Username = request.Username}, request.Password
                 );
             if (!response.Success)
@@ -29,7 +34,6 @@ namespace UserManagement.API.Controllers
             }
             return Ok(response);
         }
-
 
         [HttpPost("Login")]
         public async Task<IActionResult> Login(UserLoginDto request)
