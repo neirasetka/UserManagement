@@ -39,19 +39,32 @@ namespace UserManagement.Services.Services
             }
             return response;
         }
-        public async Task<ServiceResponse<string>> Register(User newUser)
+        public async Task<ServiceResponse<int>> Register(User user, string password)
         {
-            ServiceResponse<string> response = new ServiceResponse<string>();
-            if (await UserExists(newUser.Username))
+            ServiceResponse<int> response = new ServiceResponse<int>();
+            if(await UserExists(user.Username))
             {
                 response.Success = false;
                 response.Message = "User already exists!";
                 return response;
             }
-            _context.Add(newUser);
+            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+
+            _context.Add(user);
             await _context.SaveChangesAsync();
-            response.Data = newUser.Username;
+            response.Data = user.Id;
             return response;
+        }
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+           using (var hmac = new System.Security.Cryptography.HMACSHA512())
+           {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+           }
         }
 
         public async Task<bool> UserExists(string username)

@@ -18,12 +18,14 @@ namespace UserManagement.API.Controllers
             _authRepo = authRepo;
         }
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(UserRegisterDto newUser)
+        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDto request)
         {
-            var response = await _authRepo.Register(new User { Username = newUser.Username, /*Password = newUser.Password,*/ Email = newUser.Email, LastName = newUser.LastName, FirstName = newUser.FirstName });
-            if (response == null)
+            var response = await _authRepo.Register(
+                new User { Username = request.Username}, request.Password
+                );
+            if (!response.Success)
             {
-                return NotFound(response);
+                return BadRequest(response);    
             }
             return Ok(response);
         }
