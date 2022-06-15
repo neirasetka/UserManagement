@@ -46,7 +46,10 @@ namespace UserManagement.Services.Services
         public async Task<ServiceResponse<int>> Register(User user, string password)
         {
             ServiceResponse<int> response = new ServiceResponse<int>();
-            if (await UserExists(user.Username))
+
+
+            if(await UserExists(user.Username))
+
             {
                 response.Success = false;
                 response.Message = "User already exists!";
@@ -69,6 +72,8 @@ namespace UserManagement.Services.Services
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
+
+        
         }
 
         public async Task<bool> UserExists(string username)
@@ -104,7 +109,10 @@ namespace UserManagement.Services.Services
             };
 
             SymmetricSecurityKey key = new SymmetricSecurityKey(
+
                 Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value)
+
+                System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value)
             );
 
             SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);

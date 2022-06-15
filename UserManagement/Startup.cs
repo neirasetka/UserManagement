@@ -71,8 +71,8 @@ namespace UserManagement
         {
             if (env.IsDevelopment())
             {
-                app.UseMiddleware<ExceptionMiddleware>();
                 app.UseDeveloperExceptionPage();
+                app.UseMiddleware<ExceptionMiddleware>();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UserManagement v1"));
             }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using UserManagement.Core.DTOs;
 using UserManagement.Core.Entities;
@@ -18,19 +17,20 @@ namespace UserManagement.API.Controllers
             _authRepo = authRepo;
         }
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(UserRegisterDto newUser)
+        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDto request)
         {
             var response = await _authRepo.Register(
+
                 new User { Username = newUser.Username }, newUser.Password
-                );
-            // var response = await _authRepo.Register(new User { Username = newUser.Username, /*Password = newUser.Password,*/ Email = newUser.Email, LastName = newUser.LastName, FirstName = newUser.FirstName });
-            if (response == null)
+             
+
+            if (!response.Success)
+
             {
-                return NotFound(response);
+                return BadRequest(response);
             }
             return Ok(response);
         }
-
 
         [HttpPost("Login")]
         public async Task<IActionResult> Login(UserLoginDto request)
@@ -40,7 +40,6 @@ namespace UserManagement.API.Controllers
             if (!response.Success)
             {
                 return BadRequest(response);
-
             }
             return Ok(response);
         }
