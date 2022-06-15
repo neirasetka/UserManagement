@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using UserManagement.Database;
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using UserManagement.Core.DTOs;
+using UserManagement.Core.DTOs.VehicleDto;
 using UserManagement.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 
 namespace UserManagement.API.Controllers
 {
@@ -17,7 +13,7 @@ namespace UserManagement.API.Controllers
     {
 
         private readonly IVehicleService _vehicleService;
-        
+
         public VehicleController(IVehicleService vehicleService)
         {
             _vehicleService = vehicleService;
@@ -25,7 +21,7 @@ namespace UserManagement.API.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllVehicles(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery)
         {
-            var response = await _vehicleService.GetAllVehicles(pageNumber, pageSize, sortParametar, searchQuery); 
+            var response = await _vehicleService.GetAllVehicles(pageNumber, pageSize, sortParametar, searchQuery);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -65,7 +61,7 @@ namespace UserManagement.API.Controllers
             }
             return Ok(response);
         }
-    
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVehicleById(int id)

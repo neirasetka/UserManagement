@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UserManagement.Core.Entities;
 
-namespace UserManagement.Core.DTOs
+namespace UserManagement.Core.DTOs.ExpenseDto
 {
     public class UpdateExpenseDto
     {
@@ -14,6 +10,6 @@ namespace UserManagement.Core.DTOs
         public double Price { get; set; }
         public bool IsDeleted { get; set; } = false;
         public Vehicle Vehicle { get; set; }
-        public DateTime ExpirationDate{ get; set; }
+        public DateTime ExpirationDate { get; set; }
     }
 }

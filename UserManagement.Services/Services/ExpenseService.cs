@@ -1,11 +1,10 @@
-
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UserManagement.Core.DTOs;
+using UserManagement.Core.DTOs.ExpenseDto;
 using UserManagement.Core.Entities;
 using UserManagement.Database;
 using UserManagement.Services.Interfaces;
@@ -28,8 +27,8 @@ namespace UserManagement.Services.Services
 
             var dbExpenses = await _context.Expenses.Where(v => v.IsDeleted == false).ToListAsync();
 
-            if(searchQuery != null)
-                dbExpenses = dbExpenses.Where(u=> u.Name.ToLower().Contains(searchQuery.ToLower()) 
+            if (searchQuery != null)
+                dbExpenses = dbExpenses.Where(u => u.Name.ToLower().Contains(searchQuery.ToLower())
                                           || u.Price.ToString().Contains(searchQuery.ToLower())).ToList();
 
             if (sortParametar != null)
@@ -42,16 +41,16 @@ namespace UserManagement.Services.Services
                     case "price":
                         dbExpenses = dbExpenses.OrderBy(q => q.Price).ToList();
                         break;
-                    default:  
+                    default:
                         break;
                 }
             }
-            
+
             var currentPageNumber = pageNumber ?? 1;
             var currentPageSize = pageSize ?? 10;
-            response.Data = dbExpenses.Skip((currentPageNumber-1)*currentPageSize).Take(currentPageSize).Select(c => _mapper.Map<GetExpenseDto>(c)).ToList();
+            response.Data = dbExpenses.Skip((currentPageNumber - 1) * currentPageSize).Take(currentPageSize).Select(c => _mapper.Map<GetExpenseDto>(c)).ToList();
             return response;
-        }      
+        }
 
         public async Task<ServiceResponse<List<GetExpenseDto>>> AddExpense(AddExpenseDto newExpense)
         {
@@ -96,7 +95,7 @@ namespace UserManagement.Services.Services
             try
             {
                 Expense expense = await _context.Expenses
-                    .FirstOrDefaultAsync(c => c.Id ==id && !c.IsDeleted);
+                    .FirstOrDefaultAsync(c => c.Id == id && !c.IsDeleted);
                 if (expense == null)
                 {
                     response.Success = false;

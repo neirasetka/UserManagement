@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UserManagement.Core.DTOs;
+using UserManagement.Common.Enums;
+using UserManagement.Core.DTOs.UserDto;
 using UserManagement.Core.Entities;
 using UserManagement.Database;
 using UserManagement.Services.Interfaces;
-using UserManagement.Common.Enums;
 
 namespace UserManagement.Services.Services
 {
@@ -29,7 +29,7 @@ namespace UserManagement.Services.Services
             try
             {
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == newPermission.UserId);
-                if(user == null)
+                if (user == null)
                 {
                     response.Success = false;
                     response.Message = "User not found!";
@@ -38,7 +38,7 @@ namespace UserManagement.Services.Services
 
                 var permission = await _context.Permissions.FirstOrDefaultAsync(p => p.Id == newPermission.PermissionId);
 
-                if(permission == null)
+                if (permission == null)
                 {
                     response.Success = false;
                     response.Message = "Permission not found!";
@@ -48,9 +48,9 @@ namespace UserManagement.Services.Services
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetUserDto>(user);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                response.Success=false;
+                response.Success = false;
                 response.Message = ex.Message;
             }
             return response;
@@ -71,8 +71,8 @@ namespace UserManagement.Services.Services
             var response = new ServiceResponse<List<GetUserDto>>();
             try
             {
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id&&!u.IsDeleted);
-                if(user == null)
+                User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id && !u.IsDeleted);
+                if (user == null)
                 {
                     response.Success = false;
                     response.Message = "User not found!";
@@ -93,15 +93,15 @@ namespace UserManagement.Services.Services
             return response;
         }
 
-        public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers(int? pageNumber, int? pageSize,string? sortParametar, string? searchQuery, string filterParameter)
+        public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery, string filterParameter)
         {
             var response = new ServiceResponse<List<GetUserDto>>();
 
             var dbUsers = await _context.Users.Where(c => c.IsDeleted == false).ToListAsync();
 
-            if(searchQuery != null)
-                dbUsers = dbUsers.Where((u=> u.FirstName.ToLower().Contains(searchQuery.ToLower()) 
-                                          || u.LastName.ToLower().Contains(searchQuery.ToLower()) 
+            if (searchQuery != null)
+                dbUsers = dbUsers.Where((u => u.FirstName.ToLower().Contains(searchQuery.ToLower())
+                                          || u.LastName.ToLower().Contains(searchQuery.ToLower())
                                           || u.Username.ToLower().Contains(searchQuery.ToLower()))).ToList();
 
             if (filterParameter == "Active")
@@ -109,7 +109,7 @@ namespace UserManagement.Services.Services
 
             else if (filterParameter == "Inactive")
                 dbUsers = dbUsers.Where(u => u.UserStatus == Status.Inactive).ToList();
-                
+
             if (sortParametar != null)
             {
                 switch (sortParametar)
@@ -123,18 +123,18 @@ namespace UserManagement.Services.Services
                     case "username":
                         dbUsers = dbUsers.OrderBy(q => q.Username).ToList();
                         break;
-                    default:  
+                    default:
                         break;
                 }
             }
-            
+
             var currentPageNumber = pageNumber ?? 1;
             var currentPageSize = pageSize ?? 10;
-            response.Data = dbUsers.Skip((currentPageNumber-1)*currentPageSize).Take(currentPageSize).Select(c => _mapper.Map<GetUserDto>(c)).ToList();
+            response.Data = dbUsers.Skip((currentPageNumber - 1) * currentPageSize).Take(currentPageSize).Select(c => _mapper.Map<GetUserDto>(c)).ToList();
             return response;
-        }      
+        }
 
-        
+
         public async Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updatedUser)
         {
             var response = new ServiceResponse<GetUserDto>();
@@ -148,14 +148,14 @@ namespace UserManagement.Services.Services
                     response.Message = "User not found!";
                     return response;
                 }
-                    user.FirstName = updatedUser.FirstName;
-                    user.LastName = updatedUser.LastName;
-                    user.Username = updatedUser.Username;
-                    user.Email = updatedUser.Email;
-                    user.UserStatus = updatedUser.UserStatus;
-                    user.IsDeleted = updatedUser.isDeleted;
-                    await _context.SaveChangesAsync();
-                    response.Data = _mapper.Map<GetUserDto>(user);
+                user.FirstName = updatedUser.FirstName;
+                user.LastName = updatedUser.LastName;
+                user.Username = updatedUser.Username;
+                user.Email = updatedUser.Email;
+                user.UserStatus = updatedUser.UserStatus;
+                user.IsDeleted = updatedUser.IsDeleted;
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetUserDto>(user);
             }
             catch (Exception ex)
             {

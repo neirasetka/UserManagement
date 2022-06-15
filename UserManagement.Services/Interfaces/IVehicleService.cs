@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using UserManagement.Core.DTOs;
+using UserManagement.Core.DTOs.VehicleDto;
 using UserManagement.Core.Entities;
 
 namespace UserManagement.Services.Interfaces
@@ -12,6 +12,5 @@ namespace UserManagement.Services.Interfaces
         Task<ServiceResponse<List<GetVehicleDto>>> DeleteVehicle(int id);
         Task<ServiceResponse<GetVehicleDto>> UpdateVehicle(UpdateVehicleDto updatedVehicle);
         Task<ServiceResponse<GetVehicleDto>> GetVehicleById(int id);
-
     }
 }

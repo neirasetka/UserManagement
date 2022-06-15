@@ -1,14 +1,13 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UserManagement.Common.Enums;
-using AutoMapper;
-using UserManagement.Core.DTOs;
+using UserManagement.Core.DTOs.VehicleDto;
 using UserManagement.Core.Entities;
 using UserManagement.Database;
 using UserManagement.Services.Interfaces;
-using System;
 
 namespace UserManagement.Services.Services
 {
@@ -17,7 +16,7 @@ namespace UserManagement.Services.Services
         private readonly UserManagementDbContext _context;
         private readonly IMapper _mapper;
 
-        public VehicleService (UserManagementDbContext context, IMapper mapper)
+        public VehicleService(UserManagementDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -29,9 +28,9 @@ namespace UserManagement.Services.Services
 
             var dbVehicles = await _context.Vehicles.Where(v => v.IsDeleted == false).ToListAsync();
 
-            if(searchQuery != null)
-                dbVehicles = dbVehicles.Where((u=> u.Name.ToLower().Contains(searchQuery.ToLower()) 
-                                          || u.LicensePlate.ToLower().Contains(searchQuery.ToLower()) 
+            if (searchQuery != null)
+                dbVehicles = dbVehicles.Where((u => u.Name.ToLower().Contains(searchQuery.ToLower())
+                                          || u.LicensePlate.ToLower().Contains(searchQuery.ToLower())
                                           || u.Manufacturer.ToLower().Contains(searchQuery.ToLower()))).ToList();
 
             if (sortParametar != null)
@@ -45,18 +44,18 @@ namespace UserManagement.Services.Services
                         dbVehicles = dbVehicles.OrderBy(q => q.LicensePlate).ToList();
                         break;
                     case "manufacturer":
-                        dbVehicles= dbVehicles.OrderBy(q => q.Manufacturer).ToList();
+                        dbVehicles = dbVehicles.OrderBy(q => q.Manufacturer).ToList();
                         break;
-                    default:  
+                    default:
                         break;
                 }
             }
-            
+
             var currentPageNumber = pageNumber ?? 1;
             var currentPageSize = pageSize ?? 10;
-            response.Data = dbVehicles.Skip((currentPageNumber-1)*currentPageSize).Take(currentPageSize).Select(c => _mapper.Map<GetVehicleDto>(c)).ToList();
+            response.Data = dbVehicles.Skip((currentPageNumber - 1) * currentPageSize).Take(currentPageSize).Select(c => _mapper.Map<GetVehicleDto>(c)).ToList();
             return response;
-        }      
+        }
 
         public async Task<ServiceResponse<List<GetVehicleDto>>> AddVehicle(AddVehicleDto newVehicle)
         {
@@ -72,7 +71,7 @@ namespace UserManagement.Services.Services
             var response = new ServiceResponse<List<GetVehicleDto>>();
             try
             {
-              
+
                 Vehicle vehicle = await _context.Vehicles.FirstOrDefaultAsync(u => u.Id == id && !u.IsDeleted);
                 if (vehicle == null)
                 {
@@ -108,7 +107,7 @@ namespace UserManagement.Services.Services
                     response.Message = "Vehcile not found!";
                     return response;
                 }
-                
+
                 response.Data = _mapper.Map<GetVehicleDto>(vehicle);
             }
             catch (Exception ex)

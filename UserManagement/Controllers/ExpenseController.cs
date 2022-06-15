@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using UserManagement.Core.DTOs;
-
+using UserManagement.Core.DTOs.ExpenseDto;
 using UserManagement.Services.Interfaces;
 
 namespace UserManagement.API.Controllers
@@ -14,7 +12,7 @@ namespace UserManagement.API.Controllers
     public class ExpenseController : ControllerBase
     {
         private readonly IExpenseService _expenseService;
-        
+
         public ExpenseController(IExpenseService expenseService)
         {
             _expenseService = expenseService;
@@ -23,20 +21,20 @@ namespace UserManagement.API.Controllers
         public async Task<IActionResult> GetAllExpenses(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery)
         {
             var response = await _expenseService.GetAllExpenses(pageNumber, pageSize, sortParametar, searchQuery);
-            if(response == null)
+            if (response == null)
             {
                 return BadRequest(response);
             }
             return Ok(response);
         }
 
-  
-        
+
+
         [HttpPost]
         public async Task<IActionResult> AddExpense(AddExpenseDto newExpense)
         {
             var response = await _expenseService.AddExpense(newExpense);
-             if (response.Data == null)
+            if (response.Data == null)
             {
                 return NotFound(response);
             }

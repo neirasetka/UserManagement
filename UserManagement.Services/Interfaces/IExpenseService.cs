@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using UserManagement.Core.DTOs;
+using UserManagement.Core.DTOs.ExpenseDto;
 using UserManagement.Core.Entities;
 
 namespace UserManagement.Services.Interfaces

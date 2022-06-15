@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using UserManagement.Core.DTOs;
+using UserManagement.Core.DTOs.UserDto;
 using UserManagement.Core.Entities;
 namespace UserManagement.Services.Interfaces
 {
@@ -9,7 +9,7 @@ namespace UserManagement.Services.Interfaces
         Task<ServiceResponse<List<GetUserDto>>> AddUser(AddUserDto newUser);
         Task<ServiceResponse<GetUserDto>> AddPersmissionToUser(AddPermissionToUserDto permission);
         Task<ServiceResponse<List<GetUserDto>>> DeleteUser(int id);
-        Task<ServiceResponse<List<GetUserDto>>> GetAllUsers(int? pageNumber,int? pageSize,string? sortParametar, string? searchQuery, string? filterParameter );
-        Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updatedUser);   
+        Task<ServiceResponse<List<GetUserDto>>> GetAllUsers(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery, string? filterParameter);
+        Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updatedUser);
     }
 }

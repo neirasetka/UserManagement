@@ -1,6 +1,6 @@
 ﻿using UserManagement.Common.Enums;
 
-namespace UserManagement.Core.DTOs
+namespace UserManagement.Core.DTOs.UserDto
 {
     public class UpdateUserDto
     {
@@ -10,6 +10,6 @@ namespace UserManagement.Core.DTOs
         public string Username { get; set; }
         public string Email { get; set; }
         public Status UserStatus { get; set; }
-        public bool isDeleted { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

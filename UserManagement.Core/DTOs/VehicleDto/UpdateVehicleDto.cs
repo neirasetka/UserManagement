@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UserManagement.Core.Entities;
 
-namespace UserManagement.Core.DTOs
+namespace UserManagement.Core.DTOs.VehicleDto
 {
     public class UpdateVehicleDto
     {

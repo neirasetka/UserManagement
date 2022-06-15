@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using UserManagement.Core.DTOs;
+using UserManagement.Core.DTOs.PermissionDto;
 using UserManagement.Services.Interfaces;
 
 namespace UserManagement.API.Controllers

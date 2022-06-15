@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using UserManagement.Core.DTOs;
+using UserManagement.Core.DTOs.UserDto;
 using UserManagement.Core.Entities;
 using UserManagement.Services.Interfaces;
 
@@ -22,7 +22,7 @@ namespace UserManagement.API.Controllers
             var response = await _authRepo.Register(
 
                 new User { Username = request.Username }, request.Password);
-             
+
 
             if (!response.Success)
 

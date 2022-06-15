@@ -1,4 +1,4 @@
-﻿namespace UserManagement.Core.DTOs
+﻿namespace UserManagement.Core.DTOs.PermissionDto
 {
     public class AddPermissionDto
     {

@@ -1,8 +1,11 @@
-using AutoMapper;
-using UserManagement.Core.DTOs;
+﻿using AutoMapper;
+using UserManagement.Core.DTOs.ExpenseDto;
+using UserManagement.Core.DTOs.PermissionDto;
+using UserManagement.Core.DTOs.UserDto;
+using UserManagement.Core.DTOs.VehicleDto;
 using UserManagement.Core.Entities;
 
-namespace UserManagement
+namespace UserManagement.Mapper
 {
     public class AutoMapperProfile : Profile
     {
