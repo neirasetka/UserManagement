@@ -26,6 +26,11 @@ namespace UserManagement.API.Controllers
             if (!response.Success)
             {
                 return BadRequest(response);
+                new User { Username = request.Username}, request.Password
+                );
+            if (!response.Success)
+            {
+                return BadRequest(response);    
             }
             return Ok(response);
         }

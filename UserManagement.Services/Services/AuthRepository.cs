@@ -46,7 +46,9 @@ namespace UserManagement.Services.Services
         public async Task<ServiceResponse<int>> Register(User user, string password)
         {
             ServiceResponse<int> response = new ServiceResponse<int>();
-            if (await UserExists(user.Username))
+
+            if(await UserExists(user.Username))
+
             {
                 response.Success = false;
                 response.Message = "User already exists!";
@@ -69,6 +71,11 @@ namespace UserManagement.Services.Services
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
+           using (var hmac = new System.Security.Cryptography.HMACSHA512())
+           {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+           }
         }
 
         public async Task<bool> UserExists(string username)
