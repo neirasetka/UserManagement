@@ -21,7 +21,7 @@ namespace UserManagement.API.Controllers
         {
             var response = await _authRepo.Register(
 
-                new User { Username = newUser.Username }, newUser.Password
+                new User { Username = request.Username }, request.Password);
              
 
             if (!response.Success)
