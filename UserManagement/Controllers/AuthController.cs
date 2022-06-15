@@ -20,7 +20,10 @@ namespace UserManagement.API.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register(UserRegisterDto newUser)
         {
-            var response = await _authRepo.Register(new User { Username = newUser.Username, /*Password = newUser.Password,*/ Email = newUser.Email, LastName = newUser.LastName, FirstName = newUser.FirstName });
+            var response = await _authRepo.Register(
+                new User { Username = newUser.Username }, newUser.Password
+                );
+            // var response = await _authRepo.Register(new User { Username = newUser.Username, /*Password = newUser.Password,*/ Email = newUser.Email, LastName = newUser.LastName, FirstName = newUser.FirstName });
             if (response == null)
             {
                 return NotFound(response);

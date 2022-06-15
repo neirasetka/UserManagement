@@ -6,9 +6,11 @@ using UserManagement.Database;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Core.DTOs;
 using UserManagement.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace UserManagement.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class VehicleController : ControllerBase
