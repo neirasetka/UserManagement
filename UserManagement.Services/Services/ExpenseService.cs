@@ -15,11 +15,13 @@ namespace UserManagement.Services.Services
     {
         private readonly UserManagementDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
 
-        public ExpenseService(UserManagementDbContext context, IMapper mapper)
+        public ExpenseService(UserManagementDbContext context, IMapper mapper, IEmailService emailService)
         {
             _context = context;
             _mapper = mapper;
+            _emailService = emailService;
         }
         public async Task<ServiceResponse<List<GetExpenseDto>>> GetAllExpenses(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery)
         {
@@ -55,10 +57,16 @@ namespace UserManagement.Services.Services
         public async Task<ServiceResponse<List<GetExpenseDto>>> AddExpense(AddExpenseDto newExpense)
         {
             var response = new ServiceResponse<List<GetExpenseDto>>();
+            var vehicle = _context.Vehicles.Include(v=>v.User).FirstOrDefault(v => v.Id == newExpense.VehicleId);
             var expense = _mapper.Map<Expense>(newExpense);
+            expense.Vehicle = vehicle;
+            var userEmail = expense.Vehicle.User.Email;
+            var userName = expense.Vehicle.User.FirstName + expense.Vehicle.User.LastName;
             _context.Expenses.Add(expense);
             await _context.SaveChangesAsync();
             response.Data = await _context.Expenses.Select(u => _mapper.Map<GetExpenseDto>(u)).ToListAsync();
+            if (expense.ExpirationDate > DateTime.Now)
+                    await _emailService.SendEmail(userEmail, userName, expense.Name, expense.ExpirationDate);
             return response;
         }
         public async Task<ServiceResponse<List<GetExpenseDto>>> DeleteExpense(int id)
@@ -119,16 +127,21 @@ namespace UserManagement.Services.Services
             {
                 Expense expense = await _context.Expenses
                     .FirstOrDefaultAsync(c => c.Id == updatedExpense.Id && !c.IsDeleted);
+                var vehicle = _context.Vehicles.Include(v=>v.User).FirstOrDefault(v => v.Id == updatedExpense.VehicleId);
                 if (expense == null)
                 {
                     response.Success = false;
                     response.Message = "Vehcile not found!";
                     return response;
                 }
+                expense.Vehicle = vehicle;
                 expense.Name = updatedExpense.Name;
                 expense.Price = updatedExpense.Price;
                 expense.IsDeleted = updatedExpense.IsDeleted;
-                expense.Vehicle = updatedExpense.Vehicle;
+                var userEmail = expense.Vehicle.User.Email;
+                var userName = expense.Vehicle.User.FirstName + expense.Vehicle.User.LastName;
+                if (expense.ExpirationDate != updatedExpense.ExpirationDate && updatedExpense.ExpirationDate>DateTime.Now)
+                    await _emailService.SendEmail(userEmail, userName, updatedExpense.Name, updatedExpense.ExpirationDate);
                 expense.ExpirationDate = updatedExpense.ExpirationDate;
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetExpenseDto>(expense);

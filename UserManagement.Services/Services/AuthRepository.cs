@@ -109,9 +109,6 @@ namespace UserManagement.Services.Services
             };
 
             SymmetricSecurityKey key = new SymmetricSecurityKey(
-
-                  
-
                 System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value)
             );
 
