@@ -42,5 +42,15 @@ namespace UserManagement.API.Controllers
             }
             return Ok(response);
         }
+        [HttpPut("UpdatePassword")]
+        public async Task<IActionResult> UpdatePassword(string username, string OldPassword, string NewPassword)
+        {
+            var response = await _authRepo.UpdateUserPassword(username, OldPassword, NewPassword);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
     }
 }

@@ -1,12 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using UserManagement.Core.DTOs.UserDto;
 using UserManagement.Core.Entities;
 using UserManagement.Database;
 using UserManagement.Services.Interfaces;
@@ -17,9 +20,12 @@ namespace UserManagement.Services.Services
     {
         private readonly UserManagementDbContext _context;
         private readonly IConfiguration _configuration;
-        public AuthRepository(UserManagementDbContext context, IConfiguration configuration)
+        private readonly IMapper _mapper;
+
+        public AuthRepository(UserManagementDbContext context, IConfiguration configuration, IMapper mapper)
         {
             _configuration = configuration;
+            _mapper = mapper;
             _context = context;
         }
 
@@ -124,6 +130,48 @@ namespace UserManagement.Services.Services
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+
+        public async Task<ServiceResponse<GetUserDto>> UpdateUserPassword(string username, string oldPassword, string newPassword)
+        {
+           
+                var response = new ServiceResponse<GetUserDto>();
+                try
+                {
+                    User user = await _context.Users
+                        .FirstOrDefaultAsync(c => c.Username == username && !c.IsDeleted);
+                    if (user == null)
+                    {
+                        response.Success = false;
+                        response.Message = "User not found!";
+                        return response;
+                    }
+           
+                if (!VerifyPasswordHash(oldPassword,user.PasswordHash,user.PasswordSalt))
+                {
+                    response.Success = false;
+                    response.Message = "Old password is not correct!";
+                    return response;
+                }
+                else
+                {
+                    CreatePasswordHash(newPassword, out byte[] passwordHashNew, out byte[] passwordSaltNew);
+                    user.PasswordHash = passwordHashNew;
+                    user.PasswordSalt = passwordSaltNew;
+
+                }
+
+
+                await _context.SaveChangesAsync();
+                    response.Data = _mapper.Map<GetUserDto>(user);
+                }
+                catch (Exception ex)
+                {
+                    response.Success = false;
+                    response.Message = ex.Message;
+                }
+                return response;
+            
         }
     }
 }

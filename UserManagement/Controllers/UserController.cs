@@ -59,6 +59,9 @@ namespace UserManagement.API.Controllers
             return Ok(response);
         }
 
+
+      
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
