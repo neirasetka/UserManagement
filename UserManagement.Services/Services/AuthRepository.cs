@@ -32,7 +32,7 @@ namespace UserManagement.Services.Services
                 response.Success = false;
                 response.Message = "User not found.";
             }
-            else 
+            else
             {
                 response.Success = false;
                 response.Message = "Wrong password";

@@ -11,7 +11,7 @@ namespace UserManagement.Core.DTOs
     {
         public string Name { get; set; }
         public double Price { get; set; }
-        public Vehicle Vehicle { get; set; }
+        public int VehicleId{ get; set; }
         public DateTime ExpirationDate{ get; set; }
     }
 }

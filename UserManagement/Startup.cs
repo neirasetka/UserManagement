@@ -1,3 +1,4 @@
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,6 +34,8 @@ namespace UserManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHangfire(x => x.UseSqlServerStorage("Server=localhost\\SQLEXPRESS; Database=HangFireTest; Integrated Security=True"));
+            services.AddHangfireServer();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -55,6 +58,8 @@ namespace UserManagement
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UserManagement v1"));
             }
+
+            app.UseHangfireDashboard("/mydashboard");
 
             app.UseHttpsRedirection();
 

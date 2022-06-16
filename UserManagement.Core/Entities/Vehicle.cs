@@ -13,6 +13,7 @@ namespace UserManagement.Core.Entities
         public string LicensePlate { get; set; }
         public string Manufacturer { get; set; }
         public bool IsDeleted { get; set; } = false;
-        List<Expense> Expenses { get; set; }
+        public List<Expense> Expenses { get; set; }
+        public User User { get; set; }
     }
 }
