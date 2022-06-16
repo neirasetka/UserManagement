@@ -37,7 +37,7 @@ namespace UserManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHangfire(x => x.UseSqlServerStorage("Server=.; Database=HangFireTest; Integrated Security=True"));
+            services.AddHangfire(x => x.UseSqlServerStorage("Server=localhost\\SQLSERVER; Database=HangFireTest; Integrated Security=True"));
             services.AddHangfireServer();
             services.AddControllers();
             services.AddSwaggerGen(c =>
