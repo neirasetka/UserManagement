@@ -57,7 +57,7 @@ namespace UserManagement.Services.Services
         public async Task<ServiceResponse<List<GetExpenseDto>>> AddExpense(AddExpenseDto newExpense)
         {
             var response = new ServiceResponse<List<GetExpenseDto>>();
-            var vehicle = _context.Vehicles.Include(v=>v.User).FirstOrDefault(v => v.Id == newExpense.VehicleId);
+            var vehicle = _context.Vehicles.Include(v => v.User).FirstOrDefault(v => v.Id == newExpense.VehicleId);
             var expense = _mapper.Map<Expense>(newExpense);
             expense.Vehicle = vehicle;
             var userEmail = expense.Vehicle.User.Email;
@@ -66,7 +66,7 @@ namespace UserManagement.Services.Services
             await _context.SaveChangesAsync();
             response.Data = await _context.Expenses.Select(u => _mapper.Map<GetExpenseDto>(u)).ToListAsync();
             if (expense.ExpirationDate > DateTime.Now)
-                    await _emailService.SendEmail(userEmail, userName, expense.Name, expense.ExpirationDate);
+                await _emailService.SendEmail(userEmail, userName, expense.Name, expense.ExpirationDate);
             return response;
         }
         public async Task<ServiceResponse<List<GetExpenseDto>>> DeleteExpense(int id)
@@ -127,7 +127,7 @@ namespace UserManagement.Services.Services
             {
                 Expense expense = await _context.Expenses
                     .FirstOrDefaultAsync(c => c.Id == updatedExpense.Id && !c.IsDeleted);
-                var vehicle = _context.Vehicles.Include(v=>v.User).FirstOrDefault(v => v.Id == updatedExpense.VehicleId);
+                var vehicle = _context.Vehicles.Include(v => v.User).FirstOrDefault(v => v.Id == updatedExpense.VehicleId);
                 if (expense == null)
                 {
                     response.Success = false;
@@ -140,7 +140,7 @@ namespace UserManagement.Services.Services
                 expense.IsDeleted = updatedExpense.IsDeleted;
                 var userEmail = expense.Vehicle.User.Email;
                 var userName = expense.Vehicle.User.FirstName + expense.Vehicle.User.LastName;
-                if (expense.ExpirationDate != updatedExpense.ExpirationDate && updatedExpense.ExpirationDate>DateTime.Now)
+                if (expense.ExpirationDate != updatedExpense.ExpirationDate && updatedExpense.ExpirationDate > DateTime.Now)
                     await _emailService.SendEmail(userEmail, userName, updatedExpense.Name, updatedExpense.ExpirationDate);
                 expense.ExpirationDate = updatedExpense.ExpirationDate;
                 await _context.SaveChangesAsync();

@@ -16,6 +16,7 @@ namespace UserManagement.API.Controllers
         {
             _authRepo = authRepo;
         }
+
         [HttpPost("Register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDto request)
         {
@@ -43,4 +44,3 @@ namespace UserManagement.API.Controllers
         }
     }
 }
-

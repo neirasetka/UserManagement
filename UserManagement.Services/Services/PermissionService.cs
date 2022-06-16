@@ -71,7 +71,6 @@ namespace UserManagement.Services.Services
             return response;
         }
 
-
         public async Task<ServiceResponse<List<GetPermissionDto>>> AddPermission(AddPermissionDto newPermission)
         {
             var response = new ServiceResponse<List<GetPermissionDto>>();

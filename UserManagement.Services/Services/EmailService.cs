@@ -1,11 +1,7 @@
 ﻿using Hangfire;
-using Microsoft.AspNetCore.Mvc;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Services.Interfaces;
 
@@ -15,12 +11,13 @@ namespace UserManagement.Services.Services
     {
         public async Task<bool> SendEmail(string receiver, string receiverName, string expenseName, DateTime date)
         {
-            var dateTimeOffset = date.AddDays(-10); 
+            var dateTimeOffset = date.AddDays(-10);
             var job = BackgroundJob.Schedule(() => Send(receiver, receiverName, expenseName, date), dateTimeOffset);
             if (job == null)
                 return false;
             return true;
         }
+
         public async Task<bool> Send(string receiver, string receiverName, string expenseName, DateTime date)
         {
             var apiKey = "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";

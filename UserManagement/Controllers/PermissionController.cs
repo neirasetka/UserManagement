@@ -14,6 +14,7 @@ namespace UserManagement.API.Controllers
         {
             _permissionService = permissionService;
         }
+
         [HttpGet("Assigned")]
         public async Task<IActionResult> ViewAssignedPermissions(int id)
         {
@@ -25,10 +26,10 @@ namespace UserManagement.API.Controllers
             return Ok(response);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdatePermission(UpdatePermissionDto updatedPermission)
+        [HttpPost]
+        public async Task<IActionResult> AddPermission(AddPermissionDto newPermision)
         {
-            var response = await _permissionService.UpdatePermission(updatedPermission);
+            var response = await _permissionService.AddPermission(newPermision);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -36,10 +37,10 @@ namespace UserManagement.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddPermission(AddPermissionDto newPermision)
+        [HttpPut]
+        public async Task<IActionResult> UpdatePermission(UpdatePermissionDto updatedPermission)
         {
-            var response = await _permissionService.AddPermission(newPermision);
+            var response = await _permissionService.UpdatePermission(updatedPermission);
             if (response.Data == null)
             {
                 return NotFound(response);

@@ -17,6 +17,7 @@ namespace UserManagement.API.Controllers
         {
             _expenseService = expenseService;
         }
+
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllExpenses(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery)
         {
@@ -28,12 +29,10 @@ namespace UserManagement.API.Controllers
             return Ok(response);
         }
 
-
-
-        [HttpPost]
-        public async Task<IActionResult> AddExpense(AddExpenseDto newExpense)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetExpenseById(int id)
         {
-            var response = await _expenseService.AddExpense(newExpense);
+            var response = await _expenseService.GetExpenseById(id);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -41,10 +40,10 @@ namespace UserManagement.API.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteExpense(int id)
+        [HttpPost]
+        public async Task<IActionResult> AddExpense(AddExpenseDto newExpense)
         {
-            var response = await _expenseService.DeleteExpense(id);
+            var response = await _expenseService.AddExpense(newExpense);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -62,16 +61,16 @@ namespace UserManagement.API.Controllers
             }
             return Ok(response);
         }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetExpenseById(int id)
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteExpense(int id)
         {
-            var response = await _expenseService.GetExpenseById(id);
+            var response = await _expenseService.DeleteExpense(id);
             if (response.Data == null)
             {
                 return NotFound(response);
             }
             return Ok(response);
-
         }
     }
 }

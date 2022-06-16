@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using UserManagement.Services.Interfaces;
@@ -16,6 +15,7 @@ namespace UserManagement.API.Controllers
         {
             _emailService = emailService;
         }
+
         [HttpPost]
         public async Task<IActionResult> SendEmail(string to, string toName, string expenseName, DateTime date)
         {

@@ -65,6 +65,7 @@ namespace UserManagement.Services.Services
             response.Data = user.Id;
             return response;
         }
+
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
@@ -72,8 +73,6 @@ namespace UserManagement.Services.Services
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
-
-        
         }
 
         public async Task<bool> UserExists(string username)

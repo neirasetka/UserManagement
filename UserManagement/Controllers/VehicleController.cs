@@ -11,17 +11,28 @@ namespace UserManagement.API.Controllers
     [ApiController]
     public class VehicleController : ControllerBase
     {
-
         private readonly IVehicleService _vehicleService;
 
         public VehicleController(IVehicleService vehicleService)
         {
             _vehicleService = vehicleService;
         }
+
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllVehicles(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery)
         {
             var response = await _vehicleService.GetAllVehicles(pageNumber, pageSize, sortParametar, searchQuery);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetVehicleById(int id)
+        {
+            var response = await _vehicleService.GetVehicleById(id);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -40,17 +51,6 @@ namespace UserManagement.API.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVehicle(int id)
-        {
-            var response = await _vehicleService.DeleteVehicle(id);
-            if (response.Data == null)
-            {
-                return NotFound(response);
-            }
-            return Ok(response);
-
-        }
         [HttpPut]
         public async Task<IActionResult> UpdateVehicle(UpdateVehicleDto updatedVehicle)
         {
@@ -62,11 +62,10 @@ namespace UserManagement.API.Controllers
             return Ok(response);
         }
 
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetVehicleById(int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteVehicle(int id)
         {
-            var response = await _vehicleService.GetVehicleById(id);
+            var response = await _vehicleService.DeleteVehicle(id);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -74,6 +73,4 @@ namespace UserManagement.API.Controllers
             return Ok(response);
         }
     }
-
 }
-

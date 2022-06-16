@@ -145,6 +145,5 @@ namespace UserManagement.Services.Services
             }
             return response;
         }
-
     }
 }

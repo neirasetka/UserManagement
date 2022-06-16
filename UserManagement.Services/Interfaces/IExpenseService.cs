@@ -7,7 +7,6 @@ namespace UserManagement.Services.Interfaces
 {
     public interface IExpenseService
     {
-
         Task<ServiceResponse<List<GetExpenseDto>>> GetAllExpenses(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery);
         Task<ServiceResponse<List<GetExpenseDto>>> AddExpense(AddExpenseDto newExpense);
         Task<ServiceResponse<List<GetExpenseDto>>> DeleteExpense(int id);

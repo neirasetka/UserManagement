@@ -15,6 +15,17 @@ namespace UserManagement.API.Controllers
             _userService = userService;
         }
 
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> Get(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery, string? filterParameter)
+        {
+            var response = await _userService.GetAllUsers(pageNumber, pageSize, sortParametar, searchQuery, filterParameter);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddUser(AddUserDto newUser)
         {
@@ -37,33 +48,21 @@ namespace UserManagement.API.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            var response = await _userService.DeleteUser(id);
-            if (response.Data == null)
-            {
-                return NotFound(response);
-            }
-            return Ok(response);
-
-        }
-
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> Get(int? pageNumber, int? pageSize, string? sortParametar, string? searchQuery, string? filterParameter)
-        {
-            var response = await _userService.GetAllUsers(pageNumber, pageSize, sortParametar, searchQuery, filterParameter);
-            if (response.Data == null)
-            {
-                return NotFound(response);
-            }
-            return Ok(response);
-        }
-
         [HttpPut]
         public async Task<IActionResult> UpdateCharacter(UpdateUserDto updatedUser)
         {
             var response = await _userService.UpdateUser(updatedUser);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var response = await _userService.DeleteUser(id);
             if (response.Data == null)
             {
                 return NotFound(response);
