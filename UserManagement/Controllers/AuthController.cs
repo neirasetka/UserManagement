@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using UserManagement.Core.DTOs.UserDto;
 using UserManagement.Core.Entities;
@@ -42,6 +43,7 @@ namespace UserManagement.API.Controllers
             }
             return Ok(response);
         }
+        [Authorize]
         [HttpPut("UpdatePassword")]
         public async Task<IActionResult> UpdatePassword(string username, string OldPassword, string NewPassword)
         {
