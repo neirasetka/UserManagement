@@ -65,7 +65,7 @@ namespace UserManagement.Services.Services
             _context.Expenses.Add(expense);
             await _context.SaveChangesAsync();
             response.Data = await _context.Expenses.Select(u => _mapper.Map<GetExpenseDto>(u)).ToListAsync();
-            if (expense.ExpirationDate > DateTime.Now)
+            if (expense.ExpirationDate > DateTime.Now && expense.ExpirationDate > DateTime.Now.AddDays(10))
                 await _emailService.SendEmail(userEmail, userName, expense.Name, expense.ExpirationDate);
             return response;
         }
@@ -107,7 +107,7 @@ namespace UserManagement.Services.Services
                 if (expense == null)
                 {
                     response.Success = false;
-                    response.Message = "Vehcile not found!";
+                    response.Message = "Expense not found!";
                     return response;
                 }
                 response.Data = _mapper.Map<GetExpenseDto>(expense);
@@ -131,7 +131,7 @@ namespace UserManagement.Services.Services
                 if (expense == null)
                 {
                     response.Success = false;
-                    response.Message = "Vehcile not found!";
+                    response.Message = "Expense not found!";
                     return response;
                 }
                 expense.Vehicle = vehicle;
@@ -140,7 +140,7 @@ namespace UserManagement.Services.Services
                 expense.IsDeleted = updatedExpense.IsDeleted;
                 var userEmail = expense.Vehicle.User.Email;
                 var userName = expense.Vehicle.User.FirstName + expense.Vehicle.User.LastName;
-                if (expense.ExpirationDate != updatedExpense.ExpirationDate && updatedExpense.ExpirationDate > DateTime.Now)
+                if (expense.ExpirationDate != updatedExpense.ExpirationDate && updatedExpense.ExpirationDate > DateTime.Now.AddDays(10))
                     await _emailService.SendEmail(userEmail, userName, updatedExpense.Name, updatedExpense.ExpirationDate);
                 expense.ExpirationDate = updatedExpense.ExpirationDate;
                 await _context.SaveChangesAsync();

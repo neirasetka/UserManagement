@@ -104,7 +104,7 @@ namespace UserManagement.Services.Services
                 if (vehicle == null)
                 {
                     response.Success = false;
-                    response.Message = "Vehcile not found!";
+                    response.Message = "Vehicle not found!";
                     return response;
                 }
 
@@ -128,7 +128,7 @@ namespace UserManagement.Services.Services
                 if (vehicle == null)
                 {
                     response.Success = false;
-                    response.Message = "Vehcile not found!";
+                    response.Message = "Vehicle not found!";
                     return response;
                 }
                 vehicle.Name = updatedVehicle.Name;

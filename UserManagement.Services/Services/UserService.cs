@@ -58,6 +58,7 @@ namespace UserManagement.Services.Services
 
         public async Task<ServiceResponse<List<GetUserDto>>> AddUser(AddUserDto newUser)
         {
+            //mozda iskoristiti Register funkciju iz AuthRepository
             var response = new ServiceResponse<List<GetUserDto>>();
             var user = _mapper.Map<User>(newUser);
             _context.Users.Add(user);
