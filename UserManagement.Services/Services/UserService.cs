@@ -16,11 +16,13 @@ namespace UserManagement.Services.Services
     {
         private readonly UserManagementDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IAuthRepository _authRepository;
 
-        public UserService(UserManagementDbContext context, IMapper mapper)
+        public UserService(UserManagementDbContext context, IMapper mapper, IAuthRepository authRepository)
         {
             _context = context;
             _mapper = mapper;
+            _authRepository = authRepository;
         }
 
         public async Task<ServiceResponse<GetUserDto>> AddPersmissionToUser(AddPermissionToUserDto newPermission)
@@ -56,13 +58,11 @@ namespace UserManagement.Services.Services
             return response;
         }
 
-        public async Task<ServiceResponse<List<GetUserDto>>> AddUser(AddUserDto newUser)
+        public async Task<ServiceResponse<List<GetUserDto>>> AddUser(UserRegisterDto newUser)
         {
-            //mozda iskoristiti Register funkciju iz AuthRepository
             var response = new ServiceResponse<List<GetUserDto>>();
             var user = _mapper.Map<User>(newUser);
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            await _authRepository.Register(user, newUser.Password);
             response.Data = await _context.Users.Select(u => _mapper.Map<GetUserDto>(u)).ToListAsync();
             return response;
         }

@@ -51,6 +51,17 @@ namespace UserManagement.API.Controllers
             return Ok(response);
         }
 
+        [HttpPost("Assign")]
+        public async Task<IActionResult> AssighVehicleToUser(AssignVehicleToUserDto request)
+        {
+            var response = await _vehicleService.AssignVehicleToUser(request);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
         [HttpPut]
         public async Task<IActionResult> UpdateVehicle(UpdateVehicleDto updatedVehicle)
         {

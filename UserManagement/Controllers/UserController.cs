@@ -27,7 +27,7 @@ namespace UserManagement.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUser(AddUserDto newUser)
+        public async Task<IActionResult> AddUser(UserRegisterDto newUser)
         {
             var response = await _userService.AddUser(newUser);
             if (response.Data == null)
