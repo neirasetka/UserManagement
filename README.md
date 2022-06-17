@@ -8,13 +8,13 @@ For example, if the cost is registration, and it expires in 10 days, the user wi
 entered when he was registering his account. Users, vehicles and expenses can be sorted, filtered and searched by basic information like first name, last name and username for users. For vehicles, we use name, license plate and manufacturer as parameter to search, filter and sort. For expenses we use name and price.
 
 TECHNOLOGIES:
-ASP .NET 5.0 Web API
-Microsoft SQL Server
+ASP .NET 5.0 Web API,
+Microsoft SQL Server,
 JWT
 
 PREREQUISITIES:
-Microsoft Visual Studio 2022 IDE
-Microsoft SQL Server Management Studio 18
+Microsoft Visual Studio 2022 IDE,
+Microsoft SQL Server Management Studio 18,
 Git
 
 STARTING THE APPLICATION:
