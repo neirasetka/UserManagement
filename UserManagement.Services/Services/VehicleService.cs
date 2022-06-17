@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UserManagement.Core.DTOs.UserDto;
 using UserManagement.Core.DTOs.VehicleDto;
 using UserManagement.Core.Entities;
 using UserManagement.Database;
@@ -135,6 +136,40 @@ namespace UserManagement.Services.Services
                 vehicle.LicensePlate = updatedVehicle.LicensePlate;
                 vehicle.Manufacturer = updatedVehicle.Manufacturer;
                 vehicle.IsDeleted = updatedVehicle.IsDeleted;
+                await _context.SaveChangesAsync();
+                response.Data = _mapper.Map<GetVehicleDto>(vehicle);
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<ServiceResponse<GetVehicleDto>> AssignVehicleToUser(AssignVehicleToUserDto request)
+        {
+            var response = new ServiceResponse<GetVehicleDto>();
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == request.UserId);
+                if (user == null)
+                {
+                    response.Success = false;
+                    response.Message = "User not found!";
+                    return response;
+                }
+
+                var vehicle = await _context.Vehicles.FirstOrDefaultAsync(p => p.Id == request.VehicleId);
+
+                if (vehicle== null)
+                {
+                    response.Success = false;
+                    response.Message = "Vehicle not found!";
+                    return response;
+                }
+
+                user.Vehicles.Add(vehicle);
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetVehicleDto>(vehicle);
             }
