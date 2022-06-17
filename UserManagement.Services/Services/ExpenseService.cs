@@ -65,8 +65,8 @@ namespace UserManagement.Services.Services
             _context.Expenses.Add(expense);
             await _context.SaveChangesAsync();
             response.Data = await _context.Expenses.Select(u => _mapper.Map<GetExpenseDto>(u)).ToListAsync();
-            if (expense.ExpirationDate > DateTime.Now && expense.ExpirationDate > DateTime.Now.AddDays(10))
-                await _emailService.SendEmail(userEmail, userName, expense.Name, expense.ExpirationDate);
+            if(expense.ExpirationDate > DateTime.Now)
+            await _emailService.SendEmail(userEmail, userName, expense.Name, expense.ExpirationDate);
             return response;
         }
         public async Task<ServiceResponse<List<GetExpenseDto>>> DeleteExpense(int id)

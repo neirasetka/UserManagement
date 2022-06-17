@@ -20,7 +20,7 @@ namespace UserManagement.Services.Services
 
         public async Task<bool> Send(string receiver, string receiverName, string expenseName, DateTime date)
         {
-            var apiKey = "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";
+            var apiKey = "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";
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("mirza.lepir13@gmail.com", "RegistrationCompany");
             var subject = "Your Registration Is Running Out!";
@@ -29,6 +29,7 @@ namespace UserManagement.Services.Services
             var htmlContent = $"<strong>{plainTextContent}</strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
+            Console.WriteLine(response);
             return true;
         }
     }
