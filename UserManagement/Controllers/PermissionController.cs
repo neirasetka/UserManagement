@@ -26,6 +26,17 @@ namespace UserManagement.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPermissionById(int id)
+        {
+            var response = await _permissionService.GetPermissionById(id);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddPermission(AddPermissionDto newPermision)
         {

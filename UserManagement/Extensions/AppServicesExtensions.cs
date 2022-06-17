@@ -5,7 +5,7 @@ using UserManagement.Services.Services;
 
 namespace UserManagement.API.Extensions
 {
-        public static class Extensions
+        public static class AppServicesExtensions
         {
             public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
             {
