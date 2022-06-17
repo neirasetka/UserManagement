@@ -6,7 +6,7 @@ using UserManagement.Services.Interfaces;
 
 namespace UserManagement.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ExpenseController : ControllerBase

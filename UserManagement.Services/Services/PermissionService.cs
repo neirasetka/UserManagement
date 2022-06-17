@@ -42,6 +42,29 @@ namespace UserManagement.Services.Services
             return response;
         }
 
+        public async Task<ServiceResponse<GetPermissionDto>> GetPermissionById(int id)
+        {
+            var response = new ServiceResponse<GetPermissionDto>();
+            try
+            {
+                Permission permission = await _context.Permissions
+                    .FirstOrDefaultAsync(c => c.Id == id && !c.IsDeleted);
+                if (permission == null)
+                {
+                    response.Success = false;
+                    response.Message = "Permission not found!";
+                    return response;
+                }
+                response.Data = _mapper.Map<GetPermissionDto>(permission);
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
         public async Task<ServiceResponse<GetPermissionDto>> UpdatePermission(UpdatePermissionDto updatedPermission)
         {
             var response = new ServiceResponse<GetPermissionDto>();

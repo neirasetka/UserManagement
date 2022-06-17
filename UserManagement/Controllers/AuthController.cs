@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using UserManagement.Core.DTOs.UserDto;
 using UserManagement.Core.Entities;
@@ -39,6 +40,17 @@ namespace UserManagement.API.Controllers
             if (!response.Success)
             {
                 return BadRequest(response);
+            }
+            return Ok(response);
+        }
+        [Authorize]
+        [HttpPut("UpdatePassword")]
+        public async Task<IActionResult> UpdatePassword(string username, string OldPassword, string NewPassword)
+        {
+            var response = await _authRepo.UpdateUserPassword(username, OldPassword, NewPassword);
+            if (response.Data == null)
+            {
+                return NotFound(response);
             }
             return Ok(response);
         }

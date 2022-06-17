@@ -24,6 +24,7 @@ namespace UserManagement.Services.Services
             _mapper = mapper;
             _authRepository = authRepository;
         }
+        
 
         public async Task<ServiceResponse<GetUserDto>> AddPersmissionToUser(AddPermissionToUserDto newPermission)
         {
@@ -135,6 +136,7 @@ namespace UserManagement.Services.Services
             return response;
         }
 
+       
 
         public async Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updatedUser)
         {
