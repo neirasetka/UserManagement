@@ -17,9 +17,9 @@ namespace UserManagement.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendEmail(string to, string toName, string expenseName, DateTime date)
+        public async Task<IActionResult> SendEmail(string to, string toName, string message)
         {
-            var response = await _emailService.SendEmail(to, toName, expenseName, date);
+            var response = await _emailService.SendEmail(to, toName, message, default(DateTime));
             if(response == null)
                 return BadRequest(response);
             return Ok(response);

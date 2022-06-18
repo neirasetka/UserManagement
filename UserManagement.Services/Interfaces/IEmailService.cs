@@ -5,6 +5,6 @@ namespace UserManagement.Services.Interfaces
 {
     public interface IEmailService
     {
-        Task<bool> SendEmail(string to, string from, string message, DateTime date);
+        Task<string> SendEmail(string to, string from, string message, DateTime date);
     }
 }

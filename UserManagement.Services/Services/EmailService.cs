@@ -9,28 +9,29 @@ namespace UserManagement.Services.Services
 {
     public class EmailService : IEmailService
     {
-        public async Task<bool> SendEmail(string receiver, string receiverName, string expenseName, DateTime date)
+        public async Task<string> SendEmail(string receiver, string receiverName, string Message, DateTime date)
         {
-            var dateTimeOffset = date.AddDays(-10);
-            var job = BackgroundJob.Schedule(() => Send(receiver, receiverName, expenseName, date), dateTimeOffset);
-            if (job == null)
-                return false;
-            return true;
+            if (date == default(DateTime))
+                return BackgroundJob.Schedule(() => Send(receiver, receiverName, Message), DateTime.Now.AddSeconds(10));
+            else
+            {
+                var dateTimeOffset = date.AddDays(-10);
+                return BackgroundJob.Schedule(() => Send(receiver, receiverName, Message), dateTimeOffset);
+            }
         }
 
-        public async Task<bool> Send(string receiver, string receiverName, string expenseName, DateTime date)
+        public async Task<string> Send(string receiver, string receiverName, string message)
         {
             var apiKey = "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";
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("mirza.lepir13@gmail.com", "RegistrationCompany");
-            var subject = "Your Registration Is Running Out!";
+            var subject = "You have a notification!";
             var to = new EmailAddress(receiver, receiverName);
-            var plainTextContent = $"Your {expenseName} is running out in 10 days!";
+            var plainTextContent = $"{message}";
             var htmlContent = $"<strong>{plainTextContent}</strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
-            Console.WriteLine(response);
-            return true;
+            return response.ToString();
         }
     }
 }

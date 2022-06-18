@@ -65,7 +65,7 @@ namespace UserManagement.Services.Services
             _context.Expenses.Add(expense);
             await _context.SaveChangesAsync();
             response.Data = await _context.Expenses.Select(u => _mapper.Map<GetExpenseDto>(u)).ToListAsync();
-            if(expense.ExpirationDate > DateTime.Now)
+            if(expense.ExpirationDate != default(DateTime))
             await _emailService.SendEmail(userEmail, userName, expense.Name, expense.ExpirationDate);
             return response;
         }
@@ -125,24 +125,31 @@ namespace UserManagement.Services.Services
             var response = new ServiceResponse<GetExpenseDto>();
             try
             {
-                Expense expense = await _context.Expenses
+                Expense expense = await _context.Expenses.Include(e=>e.Vehicle)
                     .FirstOrDefaultAsync(c => c.Id == updatedExpense.Id && !c.IsDeleted);
+
                 var vehicle = _context.Vehicles.Include(v => v.User).FirstOrDefault(v => v.Id == updatedExpense.VehicleId);
+
                 if (expense == null)
                 {
                     response.Success = false;
                     response.Message = "Expense not found!";
                     return response;
                 }
+
                 expense.Vehicle = vehicle;
                 expense.Name = updatedExpense.Name;
                 expense.Price = updatedExpense.Price;
                 expense.IsDeleted = updatedExpense.IsDeleted;
+                
                 var userEmail = expense.Vehicle.User.Email;
                 var userName = expense.Vehicle.User.FirstName + expense.Vehicle.User.LastName;
-                if (expense.ExpirationDate != updatedExpense.ExpirationDate && updatedExpense.ExpirationDate > DateTime.Now.AddDays(10))
+
+                if (expense.ExpirationDate != updatedExpense.ExpirationDate)
                     await _emailService.SendEmail(userEmail, userName, updatedExpense.Name, updatedExpense.ExpirationDate);
+
                 expense.ExpirationDate = updatedExpense.ExpirationDate;
+
                 await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<GetExpenseDto>(expense);
             }

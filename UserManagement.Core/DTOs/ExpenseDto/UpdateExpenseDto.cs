@@ -10,6 +10,7 @@ namespace UserManagement.Core.DTOs.ExpenseDto
         public double Price { get; set; }
         public bool IsDeleted { get; set; }
         public int VehicleId { get; set; }
+        public DateTime CreationDate{ get; set; }
         public DateTime ExpirationDate{ get; set; }
     }
 }
