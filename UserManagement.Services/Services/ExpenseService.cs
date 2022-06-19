@@ -66,7 +66,10 @@ namespace UserManagement.Services.Services
             await _context.SaveChangesAsync();
             response.Data = await _context.Expenses.Select(u => _mapper.Map<GetExpenseDto>(u)).ToListAsync();
             if(expense.ExpirationDate != default(DateTime))
-            await _emailService.SendEmail(userEmail, userName, expense.Name, expense.ExpirationDate);
+            {
+                var message = $"Your {expense.Name} is running out soon!";
+                await _emailService.SendEmail(userEmail, userName, expense.Name, message, expense.ExpirationDate);
+            }
             return response;
         }
         public async Task<ServiceResponse<List<GetExpenseDto>>> DeleteExpense(int id)
@@ -74,7 +77,6 @@ namespace UserManagement.Services.Services
             var response = new ServiceResponse<List<GetExpenseDto>>();
             try
             {
-
                 Expense expense = await _context.Expenses.FirstOrDefaultAsync(c => c.Id == id && !c.IsDeleted);
                 if (expense == null)
                 {
@@ -144,9 +146,9 @@ namespace UserManagement.Services.Services
                 
                 var userEmail = expense.Vehicle.User.Email;
                 var userName = expense.Vehicle.User.FirstName + expense.Vehicle.User.LastName;
-
+                var message = $"Your {expense.Name} is running out soon!";
                 if (expense.ExpirationDate != updatedExpense.ExpirationDate)
-                    await _emailService.SendEmail(userEmail, userName, updatedExpense.Name, updatedExpense.ExpirationDate);
+                    await _emailService.SendEmail(userEmail, userName, updatedExpense.Name, message, updatedExpense.ExpirationDate);
 
                 expense.ExpirationDate = updatedExpense.ExpirationDate;
 

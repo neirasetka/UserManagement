@@ -10,6 +10,5 @@ namespace UserManagement.Core.DTOs.VehicleDto
         public string LicensePlate { get; set; }
         public string Manufacturer { get; set; }
         public bool IsDeleted { get; set; }
-        public List<Expense> Expenses { get; set; }
     }
 }
