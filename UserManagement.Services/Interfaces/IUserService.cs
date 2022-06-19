@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UserManagement.Core.DTOs.UserDto;
 using UserManagement.Core.Entities;
