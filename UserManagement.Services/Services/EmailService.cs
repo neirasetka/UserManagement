@@ -22,7 +22,7 @@ namespace UserManagement.Services.Services
 
         public async Task<string> Send(string receiver, string receiverName, string Subject, string message)
         {
-            var apiKey = "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";
+            var apiKey = "";
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("mirza.lepir13@gmail.com", "UserManagement");
             var subject = Subject;
