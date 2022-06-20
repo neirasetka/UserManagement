@@ -38,7 +38,7 @@ namespace UserManagement
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddHangfire(x => x.UseSqlServerStorage("Server=localhost\\SQLEXPRESS; Database=HangFireTest; Integrated Security=True"));
+            services.AddHangfire(x => x.UseSqlServerStorage("Server=.; Database=HangFireTest; Integrated Security=True"));
             services.AddHangfireServer();
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -90,8 +90,6 @@ namespace UserManagement
             app.UseAuthentication();
 
             app.UseAuthorization();
-
-           
 
             app.UseEndpoints(endpoints =>
             {
